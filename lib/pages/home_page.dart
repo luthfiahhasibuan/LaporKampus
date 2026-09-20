@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildHeader() {
     return Container(
-      padding: const EdgeInsets.fromLTRB(80, 20, 20, 20),
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -114,29 +114,41 @@ class _HomePageState extends State<HomePage> {
       ),
 
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Image.asset('assets/icon_app.png', width: 55, height: 55),
+
+          const SizedBox(width: 10),
+
           // Judul
           const Text(
             'LAPOR KAMPUS',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 22,
               fontWeight: FontWeight.bold,
               color: Color(0xff252A1C),
             ),
           ),
 
+          const Spacer(),
+
           // Avatar
           Container(
-            width: 42,
-            height: 42,
+            width: 35,
+            height: 35,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: const Color(0xFFE5EAF2),
+              color: const Color(0XFFDCB35C),
               border: Border.all(color: Colors.white, width: 2),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: const Center(
-              child: Text('👨🏻‍💼', style: TextStyle(fontSize: 25)),
+              child: Text('🧟‍♀️', style: TextStyle(fontSize: 23)),
             ),
           ),
         ],
@@ -187,54 +199,18 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildStatistics() {
-    return Row(
-      children: [
-        // TOTAL
-        Expanded(
-          child: _buildStatisticCard(
-            icon: Icons.folder,
-            number: '0',
-            label: 'Total',
-          ),
-        ),
-
-        const SizedBox(width: 40),
-
-        // TERKIRIM
-        Expanded(
-          child: _buildStatisticCard(
-            icon: Icons.send,
-            number: '0',
-            label: 'Terkirim',
-          ),
-        ),
-
-        const SizedBox(width: 40),
-
-        // DITANGGAPI
-        Expanded(
-          child: _buildStatisticCard(
-            icon: Icons.check_circle,
-            number: '0',
-            label: 'Ditanggapi',
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildStatisticCard({
     required IconData icon,
     required String number,
     required String label,
   }) {
     return Container(
-      height: 85,
+      height: 95,
       decoration: BoxDecoration(
-        color: whiteColor,
-        borderRadius: BorderRadius.circular(13),
+        color: const Color(0xffF7F7F2),
+        borderRadius: BorderRadius.circular(12),
       ),
+
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -251,11 +227,54 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          const SizedBox(height: 1),
+          const SizedBox(height: 4),
 
           Text(
             label,
             style: const TextStyle(color: Color(0xff6B705C), fontSize: 10),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatistics() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildStatisticCard(
+              icon: Icons.folder,
+              number: '5',
+              label: 'Total',
+            ),
+          ),
+
+          const SizedBox(width: 10),
+
+          Expanded(
+            child: _buildStatisticCard(
+              icon: Icons.send,
+              number: '0',
+              label: 'Terkirim',
+            ),
+          ),
+
+          const SizedBox(width: 10),
+
+          Expanded(
+            child: _buildStatisticCard(
+              icon: Icons.check_circle,
+              number: '0',
+              label: 'Ditanggapi',
+            ),
           ),
         ],
       ),
