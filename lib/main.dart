@@ -15,11 +15,7 @@ class LaporKampusApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Lapor Pak Rektor',
 
-      theme: ThemeData(
-        useMaterial3: true,
-        fontFamily: 'Poppins',
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF455B8A)),
-      ),
+      theme: ThemeData(useMaterial3: true, fontFamily: 'Poppins'),
 
       home: const HomePage(),
     );

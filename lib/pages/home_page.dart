@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/add_report_fab.dart';
+import '../widgets/app_bottom_navigation.dart';
+import '../widgets/app_header.dart';
+import '../widgets/app_scaffold.dart';
+import '../widgets/menu_card.dart';
+import '../widgets/statistics_section.dart';
+import '../widgets/welcome_card.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -10,413 +18,57 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
 
-  static const Color primaryColor = Color(0xFF4E693E);
-  static const Color whiteColor = Color(0xFFFFFFFF);
-  static const Color backgroundColor = Color(0xFFF7F7F2);
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-
-      // BODY
+    return AppScaffold(
       body: SafeArea(
         child: Column(
           children: [
-            // HEADER
-
-            _buildHeader(),
-
+            const AppHeader(),
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // WELCOME CARD
-                      _buildWelcomeCard(),
-
-                      const SizedBox(height: 25),
-
-                      // STATISTICS
-                      _buildStatistics(),
-
-                      const SizedBox(height: 30),
-
-                      // TULIS LAPORAN BARU
-                      _buildMenuCard(
-                        icon: Icons.edit_square,
-                        title: 'Tulis Laporan Baru',
-                        subtitle: 'Sampaikan keluhan dan aspirasi anda',
-                        onTap: () {
-                          _showMessage('Membuka halaman laporan baru');
-                        },
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // LIHAT LAPORAN SAYA
-                      _buildMenuCard(
-                        icon: Icons.format_list_bulleted,
-                        title: 'Lihat Laporan Saya',
-                        subtitle: 'Pantau status semua laporan anda',
-                        onTap: () {
-                          _showMessage('Membuka laporan saya');
-                        },
-                      ),
-                    ],
-                  ),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const WelcomeCard(
+                      name: 'Luthfi',
+                      universityName: 'Konoha University',
+                    ),
+                    const SizedBox(height: 25),
+                    const StatisticsSection(total: 5, sent: 0, responded: 0),
+                    const SizedBox(height: 30),
+                    MenuCard(
+                      icon: Icons.edit_square,
+                      title: 'Tulis Laporan Baru',
+                      subtitle: 'Sampaikan keluhan dan aspirasi anda',
+                      onTap: () => _showMessage('Membuka halaman laporan baru'),
+                    ),
+                    const SizedBox(height: 20),
+                    MenuCard(
+                      icon: Icons.format_list_bulleted,
+                      title: 'Lihat Laporan Saya',
+                      subtitle: 'Pantau status semua laporan anda',
+                      onTap: () => _showMessage('Membuka laporan saya'),
+                    ),
+                  ],
                 ),
               ),
             ),
           ],
         ),
       ),
-
-      // BOTTOM NAVIGATION
-      bottomNavigationBar: _buildBottomNavigation(),
-
-      // FLOATING BUTTON
-      floatingActionButton: SizedBox(
-        width: 58,
-        height: 58,
-        child: FloatingActionButton(
-          onPressed: () {
-            _showMessage('Tulis laporan baru');
-          },
-          backgroundColor: const Color(0xff4E693E),
-          elevation: 4,
-          shape: const CircleBorder(),
-          child: const Icon(Icons.add, size: 32, color: Colors.white),
-        ),
+      bottomNavigationBar: AppBottomNavigation(
+        currentIndex: selectedIndex,
+        onTap: (index) => setState(() => selectedIndex = index),
       ),
-
+      floatingActionButton: AddReportFab(
+        onPressed: () => _showMessage('Tulis laporan baru'),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
-
-  // HEADER
-
-  Widget _buildHeader() {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 10,
-            offset: const Offset(0, 1),
-          ),
-        ],
-      ),
-
-      child: Row(
-        children: [
-          Image.asset('assets/icon_app.png', width: 55, height: 55),
-
-          const SizedBox(width: 10),
-
-          // Judul
-          const Text(
-            'LAPOR KAMPUS',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Color(0xff252A1C),
-            ),
-          ),
-
-          const Spacer(),
-
-          // Avatar
-          Container(
-            width: 35,
-            height: 35,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: const Color(0XFFDCB35C),
-              border: Border.all(color: Colors.white, width: 2),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: const Center(
-              child: Text('🧟‍♀️', style: TextStyle(fontSize: 23)),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildWelcomeCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Selamat datang..',
-            style: TextStyle(color: Color(0xff6B705C), fontSize: 16),
-          ),
-
-          const SizedBox(height: 4),
-
-          const Text(
-            'Halo, Luthfi!',
-            style: TextStyle(
-              color: Color(0xff2D4030),
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 5),
-
-          const Text(
-            'Sampaikan laporan atau aspirasi kamu\n'
-            'kepada pihak Konoha University',
-            style: TextStyle(
-              color: Color(0xff6B705C),
-              fontSize: 16,
-              height: 1.4,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatisticCard({
-    required IconData icon,
-    required String number,
-    required String label,
-  }) {
-    return Container(
-      height: 95,
-      decoration: BoxDecoration(
-        color: const Color(0xffF7F7F2),
-        borderRadius: BorderRadius.circular(12),
-      ),
-
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: Color(0xff4E693E), size: 21),
-
-          const SizedBox(height: 4),
-
-          Text(
-            number,
-            style: const TextStyle(
-              color: Color(0xff252A1C),
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 4),
-
-          Text(
-            label,
-            style: const TextStyle(color: Color(0xff6B705C), fontSize: 10),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatistics() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-
-      child: Row(
-        children: [
-          Expanded(
-            child: _buildStatisticCard(
-              icon: Icons.folder,
-              number: '5',
-              label: 'Total',
-            ),
-          ),
-
-          const SizedBox(width: 10),
-
-          Expanded(
-            child: _buildStatisticCard(
-              icon: Icons.send,
-              number: '0',
-              label: 'Terkirim',
-            ),
-          ),
-
-          const SizedBox(width: 10),
-
-          Expanded(
-            child: _buildStatisticCard(
-              icon: Icons.check_circle,
-              number: '0',
-              label: 'Ditanggapi',
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMenuCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        height: 80,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
-          color: primaryColor,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          children: [
-            // ICON
-
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.circular(18),
-              ),
-              child: Icon(icon, color: Color(0xff4E693E), size: 27),
-            ),
-
-            const SizedBox(width: 12),
-
-            // TEXT
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
-                  const SizedBox(height: 3),
-
-                  Text(
-                    subtitle,
-                    style: const TextStyle(color: Colors.white, fontSize: 14),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // BOTTOM NAVIGATION
-
-  Widget _buildBottomNavigation() {
-    return Container(
-      height: 64,
-      decoration: const BoxDecoration(color: primaryColor),
-      child: Row(
-        children: [
-          // -------------------------
-          // BERANDA
-          // -------------------------
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedIndex = 0;
-                });
-              },
-              child: _buildBottomItem(
-                icon: Icons.home,
-                label: 'Beranda',
-                selected: selectedIndex == 0,
-              ),
-            ),
-          ),
-
-          // SPACE UNTUK FAB
-          const SizedBox(width: 70),
-
-          // LAPORAN
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedIndex = 1;
-                });
-              },
-              child: _buildBottomItem(
-                icon: Icons.description,
-                label: 'Laporan',
-                selected: selectedIndex == 1,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBottomItem({
-    required IconData icon,
-    required String label,
-    required bool selected,
-  }) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon, size: 21, color: selected ? whiteColor : Colors.white70),
-
-        const SizedBox(height: 2),
-
-        Text(
-          label,
-          style: TextStyle(
-            color: selected ? whiteColor : Colors.white70,
-            fontSize: 7,
-            fontWeight: selected ? FontWeight.bold : FontWeight.normal,
-          ),
-        ),
-      ],
-    );
-  }
-
-  // SNACKBAR
 
   void _showMessage(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
