@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'pages/signin_page.dart';
+import 'pages/signup_page.dart';
 
 void main() {
   runApp(const LaporKampusApp());
@@ -17,7 +17,7 @@ class LaporKampusApp extends StatelessWidget {
 
       theme: ThemeData(useMaterial3: true, fontFamily: 'Poppins'),
 
-      home: const SignInPage(),
+      home: const SignUpPage(),
     );
   }
 }

@@ -52,13 +52,13 @@ class SignInPage extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 // Title
-                const Text('Lapor Pak Rektor!', style: AppTextStyles.authTitle),
+                const Text('LAPOR KAMPUS', style: AppTextStyles.authTitle),
 
                 const SizedBox(height: 8),
 
                 // Subtitle
                 const Text(
-                  'Masuk ke akun kamu',
+                  'Silakan masuk ke akun kamu',
                   style: TextStyle(color: AppColors.white),
                 ),
 
