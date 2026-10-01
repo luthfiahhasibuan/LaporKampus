@@ -19,6 +19,7 @@ class AppColors {
   static const Color textDark = Color(0xFF252A1C);
   static const Color textGreen = Color(0xFF2D4030);
   static const Color textGrey = Color(0xFF6B705C);
+  static const Color textWhite = Color(0xFFFFFFFF);
 
   // Bayangan
   static const Color shadow = Color(0x1A000000); // hitam 10%

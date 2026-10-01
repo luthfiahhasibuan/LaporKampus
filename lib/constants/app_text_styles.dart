@@ -58,9 +58,27 @@ class AppTextStyles {
     fontWeight: FontWeight.normal,
     color: Colors.white70,
   );
+
   static const TextStyle navLabelSelected = TextStyle(
     fontSize: 7,
     fontWeight: FontWeight.bold,
     color: AppColors.white,
   );
+
+  static const TextStyle authTitle = TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.bold,
+    color: AppColors.white,
+  );
+
+  static const TextStyle buttonText = TextStyle(
+    color: AppColors.primary,
+    fontSize: 17,
+    fontWeight: FontWeight.bold,
+  );
+
+  // Text field
+  static const TextStyle fieldInput = TextStyle(color: AppColors.white);
+  static const TextStyle fieldLabel = TextStyle(color: AppColors.white);
+  static const TextStyle fieldHint = TextStyle(color: AppColors.white);
 }
