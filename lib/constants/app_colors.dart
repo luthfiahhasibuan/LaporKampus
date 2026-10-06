@@ -9,6 +9,7 @@ class AppColors {
   static const Color accent = Color(0xFFF7F7F2);
   static const Color white = Color(0xFFFFFFFF);
   static const Color golden = Color(0xFFDCB359);
+  static const Color border = Color(0xFF6B705C);
 
   // Latar belakang
   static const Color background = Color(0xFFF2F4EF); // ganti sesuai warnamu

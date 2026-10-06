@@ -77,8 +77,21 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
-  // Text field
+  static const TextStyle reportTitle = TextStyle(
+    fontSize: 17,
+    fontWeight: FontWeight.bold,
+    color: AppColors.white,
+  );
+
+  // Text field sign in/up
   static const TextStyle fieldInput = TextStyle(color: AppColors.white);
   static const TextStyle fieldLabel = TextStyle(color: AppColors.white);
   static const TextStyle fieldHint = TextStyle(color: AppColors.white);
+  static const TextStyle fieldHelper = TextStyle(color: AppColors.white);
+
+  // text field report
+  static const TextStyle formInput = TextStyle(color: AppColors.textGrey);
+  static const TextStyle formLabel = TextStyle(color: AppColors.textDark);
+  static const TextStyle formHint = TextStyle(color: AppColors.textGrey);
+  static const TextStyle formHelper = TextStyle(color: AppColors.textDark);
 }

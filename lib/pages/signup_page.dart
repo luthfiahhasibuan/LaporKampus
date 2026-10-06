@@ -202,6 +202,7 @@ class SignUpPage extends StatelessWidget {
 
                 // Konfirmasi Password Text Field
                 TextField(
+                  obscureText: true,
                   style: AppTextStyles.fieldInput,
 
                   decoration: InputDecoration(
