@@ -48,7 +48,7 @@ class _ReportPageState extends State<ReportPage> {
 
     return InputDecoration(
       hintText: hint,
-      hintStyle: AppTextStyles.fieldHint,
+      hintStyle: AppTextStyles.formHint,
       filled: true,
       fillColor: AppColors.white,
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
@@ -190,7 +190,7 @@ class _ReportPageState extends State<ReportPage> {
                             // Lampiran foto
                             const Text(
                               'Lampiran Foto',
-                              style: AppTextStyles.fieldLabel,
+                              style: AppTextStyles.formLabel,
                             ),
                             const SizedBox(height: 8),
                             InkWell(
@@ -219,7 +219,7 @@ class _ReportPageState extends State<ReportPage> {
                                       ),
                                       child: const Text(
                                         'Choose File',
-                                        style: AppTextStyles.formLabel,
+                                        style: AppTextStyles.formInput,
                                       ),
                                     ),
                                     const SizedBox(width: 12),
@@ -227,7 +227,7 @@ class _ReportPageState extends State<ReportPage> {
                                       child: Text(
                                         _selectedFileName ?? 'No File Chosen',
                                         overflow: TextOverflow.ellipsis,
-                                        style: AppTextStyles.formInput,
+                                        style: AppTextStyles.formHint,
                                       ),
                                     ),
                                   ],
@@ -238,7 +238,7 @@ class _ReportPageState extends State<ReportPage> {
                             const SizedBox(height: 6),
                             const Text(
                               'Format: JPG/PNG. Maks. 5MB',
-                              style: AppTextStyles.formInput,
+                              style: AppTextStyles.formHint,
                             ),
 
                             const SizedBox(height: 24),

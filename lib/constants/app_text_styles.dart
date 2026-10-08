@@ -32,13 +32,14 @@ class AppTextStyles {
 
   // Statistik
   static const TextStyle statNumber = TextStyle(
-    fontSize: 13,
+    fontSize: 20,
     fontWeight: FontWeight.bold,
     color: AppColors.textDark,
   );
   static const TextStyle statLabel = TextStyle(
-    fontSize: 10,
+    fontSize: 14,
     color: AppColors.textGrey,
+    fontWeight: FontWeight.bold,
   );
 
   // Menu card
@@ -54,13 +55,13 @@ class AppTextStyles {
 
   // Bottom navigation
   static const TextStyle navLabel = TextStyle(
-    fontSize: 7,
+    fontSize: 13,
     fontWeight: FontWeight.normal,
     color: Colors.white70,
   );
 
   static const TextStyle navLabelSelected = TextStyle(
-    fontSize: 7,
+    fontSize: 13,
     fontWeight: FontWeight.bold,
     color: AppColors.white,
   );
@@ -78,7 +79,7 @@ class AppTextStyles {
   );
 
   static const TextStyle reportTitle = TextStyle(
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: FontWeight.bold,
     color: AppColors.white,
   );
@@ -90,8 +91,12 @@ class AppTextStyles {
   static const TextStyle fieldHelper = TextStyle(color: AppColors.white);
 
   // text field report
-  static const TextStyle formInput = TextStyle(color: AppColors.textGrey);
-  static const TextStyle formLabel = TextStyle(color: AppColors.textDark);
+  static const TextStyle formInput = TextStyle(color: AppColors.textDark);
+  static const TextStyle formLabel = TextStyle(
+    color: AppColors.textDark,
+    fontSize: 15,
+    fontWeight: FontWeight.bold,
+  );
   static const TextStyle formHint = TextStyle(color: AppColors.textGrey);
   static const TextStyle formHelper = TextStyle(color: AppColors.textDark);
 }

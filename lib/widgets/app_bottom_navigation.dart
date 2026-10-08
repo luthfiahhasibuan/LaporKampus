@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../constants/app_colors.dart';
 import '../constants/app_text_styles.dart';
 
@@ -17,28 +18,33 @@ class AppBottomNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 64,
       color: AppColors.primary,
-      child: Row(
-        children: [
-          Expanded(
-            child: _NavItem(
-              icon: Icons.home,
-              label: 'Beranda',
-              selected: currentIndex == 0,
-              onTap: () => onTap(0),
-            ),
+      child: SafeArea(
+        top: false,
+        child: SizedBox(
+          height: 64,
+          child: Row(
+            children: [
+              Expanded(
+                child: _NavItem(
+                  icon: Icons.home,
+                  label: 'Beranda',
+                  selected: currentIndex == 0,
+                  onTap: () => onTap(0),
+                ),
+              ),
+              const SizedBox(width: 70), // ruang untuk FAB
+              Expanded(
+                child: _NavItem(
+                  icon: Icons.description,
+                  label: 'Laporan',
+                  selected: currentIndex == 1,
+                  onTap: () => onTap(1),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 70), // ruang untuk FAB
-          Expanded(
-            child: _NavItem(
-              icon: Icons.description,
-              label: 'Laporan',
-              selected: currentIndex == 1,
-              onTap: () => onTap(1),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -67,7 +73,7 @@ class _NavItem extends StatelessWidget {
         children: [
           Icon(
             icon,
-            size: 21,
+            size: 27,
             color: selected ? AppColors.white : Colors.white70,
           ),
           const SizedBox(height: 2),
