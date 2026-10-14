@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../constants/app_colors.dart';
 import '../widgets/app_header.dart';
+import '../widgets/app_bottom_navigation.dart';
+import '../widgets/app_scaffold.dart';
 
 class MyReportPage extends StatefulWidget {
   const MyReportPage({super.key});
@@ -9,6 +11,9 @@ class MyReportPage extends StatefulWidget {
   @override
   State<MyReportPage> createState() => _MyReportPageState();
 }
+
+String selectedFilter = 'Semua';
+int _selectedNavIndex = 0;
 
 class _MyReportPageState extends State<MyReportPage> {
   String selectedFilter = 'Semua';
@@ -68,19 +73,6 @@ class _MyReportPageState extends State<MyReportPage> {
     final completed = reports.where((r) => r['status'] == 'Selesai').length;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.white,
-
-        title: const Text(
-          'Laporan Saya',
-
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-
-        centerTitle: true,
-      ),
-
       body: SafeArea(
         child: Column(
           children: [
@@ -96,12 +88,9 @@ class _MyReportPageState extends State<MyReportPage> {
                   children: [
                     const Text(
                       'Riwayat Laporan',
-
                       style: TextStyle(
                         fontSize: 23,
-
                         fontWeight: FontWeight.bold,
-
                         color: AppColors.textDark,
                       ),
                     ),
@@ -109,7 +98,6 @@ class _MyReportPageState extends State<MyReportPage> {
                     const SizedBox(height: 6),
                     const Text(
                       'Pantau perkembangan laporan yang kamu kirim.',
-
                       style: TextStyle(fontSize: 14, color: AppColors.textGrey),
                     ),
 
@@ -213,6 +201,12 @@ class _MyReportPageState extends State<MyReportPage> {
           ],
         ),
       ),
+
+      bottomNavigationBar: AppBottomNavigation(
+        currentIndex: _selectedNavIndex,
+        onTap: (index) => setState(() => _selectedNavIndex = index),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
