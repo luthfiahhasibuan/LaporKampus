@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_text_styles.dart';
 import '../widgets/app_scaffold.dart';
+import 'home_page.dart';
+import 'signup_page.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -139,7 +141,12 @@ class SignInPage extends StatelessWidget {
 
                   child: ElevatedButton(
                     onPressed: () {
-                      // Tidak ada fungsi karena halaman bersifat statis
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomePage(),
+                        ),
+                      );
                     },
 
                     style: ElevatedButton.styleFrom(
@@ -168,7 +175,12 @@ class SignInPage extends StatelessWidget {
 
                     GestureDetector(
                       onTap: () {
-                        // Tidak ada fungsi karena halaman bersifat statis
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignUpPage(),
+                          ),
+                        );
                       },
 
                       child: const Text(
