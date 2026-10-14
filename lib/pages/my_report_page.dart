@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 import '../widgets/app_header.dart';
 import '../widgets/app_bottom_navigation.dart';
-import '../widgets/app_scaffold.dart';
 
 class MyReportPage extends StatefulWidget {
   const MyReportPage({super.key});
@@ -73,6 +72,7 @@ class _MyReportPageState extends State<MyReportPage> {
     final completed = reports.where((r) => r['status'] == 'Selesai').length;
 
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [

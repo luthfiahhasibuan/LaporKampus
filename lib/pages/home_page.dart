@@ -8,6 +8,7 @@ import '../widgets/menu_card.dart';
 import '../widgets/statistics_section.dart';
 import '../widgets/welcome_card.dart';
 import 'my_report_page.dart';
+import 'report_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -44,7 +45,14 @@ class _HomePageState extends State<HomePage> {
                       icon: Icons.edit_square,
                       title: 'Tulis Laporan Baru',
                       subtitle: 'Sampaikan keluhan dan aspirasi anda',
-                      onTap: () => _showMessage('Membuka halaman laporan baru'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ReportPage(),
+                          ),
+                        );
+                      },
                     ),
                     const SizedBox(height: 20),
                     MenuCard(

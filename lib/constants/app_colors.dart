@@ -13,7 +13,7 @@ class AppColors {
   static const Color muted = Color.fromARGB(255, 182, 185, 171);
 
   // Latar belakang
-  static const Color background = Color(0xFFF2F4EF); // ganti sesuai warnamu
+  static const Color background = Color(0xFFF0F4F1); // ganti sesuai warnamu
   static const Color surface = Color(0xFFFFFFFF);
   static const Color surfaceMuted = Color(0xFFF7F7F2);
 

@@ -20,7 +20,7 @@ class SignUpPage extends StatelessWidget {
             padding: const EdgeInsets.all(28),
 
             decoration: BoxDecoration(
-              color: AppColors.primary,
+              gradient: AppColors.primaryGradient,
               borderRadius: BorderRadius.circular(20),
               boxShadow: const [
                 BoxShadow(
