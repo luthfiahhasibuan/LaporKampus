@@ -7,6 +7,7 @@ import '../widgets/app_scaffold.dart';
 import '../widgets/menu_card.dart';
 import '../widgets/statistics_section.dart';
 import '../widgets/welcome_card.dart';
+import 'my_report_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -50,7 +51,14 @@ class _HomePageState extends State<HomePage> {
                       icon: Icons.format_list_bulleted,
                       title: 'Lihat Laporan Saya',
                       subtitle: 'Pantau status semua laporan anda',
-                      onTap: () => _showMessage('Membuka laporan saya'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MyReportPage(),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
