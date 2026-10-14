@@ -4,6 +4,7 @@ import '../constants/app_colors.dart';
 import '../constants/app_text_styles.dart';
 import '../widgets/app_scaffold.dart';
 import 'signin_page.dart';
+import 'home_page.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -245,7 +246,7 @@ class SignUpPage extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SignInPage(),
+                          builder: (context) => const HomePage(),
                         ),
                       );
                     },

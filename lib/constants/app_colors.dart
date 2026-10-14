@@ -10,6 +10,7 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color golden = Color(0xFFDCB359);
   static const Color border = Color(0xFF6B705C);
+  static const Color muted = Color.fromARGB(255, 182, 185, 171);
 
   // Latar belakang
   static const Color background = Color(0xFFF2F4EF); // ganti sesuai warnamu
@@ -24,4 +25,16 @@ class AppColors {
 
   // Bayangan
   static const Color shadow = Color(0x1A000000); // hitam 10%
+
+  static const LinearGradient primaryGradient = LinearGradient(
+    colors: [Color(0xFF4E693E), Color(0xFF6F8F5A)],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  );
+
+  static const LinearGradient goldenGradient = LinearGradient(
+    colors: [primary, golden],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 }

@@ -26,7 +26,7 @@ class MenuCard extends StatelessWidget {
         height: 80,
         padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          color: AppColors.primary,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
@@ -35,10 +35,10 @@ class MenuCard extends StatelessWidget {
               width: 60,
               height: 60,
               decoration: BoxDecoration(
-                color: AppColors.white,
+                gradient: AppColors.primaryGradient,
                 borderRadius: BorderRadius.circular(18),
               ),
-              child: Icon(icon, color: AppColors.primary, size: 27),
+              child: Icon(icon, color: AppColors.white, size: 27),
             ),
             const SizedBox(width: 12),
             Expanded(

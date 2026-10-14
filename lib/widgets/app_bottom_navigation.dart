@@ -18,7 +18,7 @@ class AppBottomNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.primary,
+      color: AppColors.white,
       child: SafeArea(
         top: false,
         child: SizedBox(
@@ -74,7 +74,7 @@ class _NavItem extends StatelessWidget {
           Icon(
             icon,
             size: 27,
-            color: selected ? AppColors.white : Colors.white70,
+            color: selected ? AppColors.primary : AppColors.muted,
           ),
           const SizedBox(height: 2),
           Text(

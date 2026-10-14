@@ -17,17 +17,17 @@ class AppTextStyles {
   // Welcome card
   static const TextStyle welcomeSubtitle = TextStyle(
     fontSize: 16,
-    color: AppColors.textGrey,
+    color: Colors.white70,
   );
   static const TextStyle welcomeTitle = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
-    color: AppColors.textGreen,
+    color: AppColors.white,
   );
   static const TextStyle welcomeBody = TextStyle(
     fontSize: 16,
     height: 1.4,
-    color: AppColors.textGrey,
+    color: Colors.white70,
   );
 
   // Statistik
@@ -46,24 +46,24 @@ class AppTextStyles {
   static const TextStyle menuTitle = TextStyle(
     fontSize: 17,
     fontWeight: FontWeight.bold,
-    color: AppColors.white,
+    color: AppColors.textGreen,
   );
   static const TextStyle menuSubtitle = TextStyle(
     fontSize: 14,
-    color: AppColors.white,
+    color: AppColors.textGrey,
   );
 
   // Bottom navigation
   static const TextStyle navLabel = TextStyle(
     fontSize: 13,
     fontWeight: FontWeight.normal,
-    color: Colors.white70,
+    color: AppColors.textGrey,
   );
 
   static const TextStyle navLabelSelected = TextStyle(
     fontSize: 13,
     fontWeight: FontWeight.bold,
-    color: AppColors.white,
+    color: AppColors.primary,
   );
 
   static const TextStyle authTitle = TextStyle(
