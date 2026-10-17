@@ -8,6 +8,7 @@ class MenuCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final VoidCallback onTap;
+  final Gradient gradient;
 
   const MenuCard({
     super.key,
@@ -15,6 +16,7 @@ class MenuCard extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.onTap,
+    required this.gradient,
   });
 
   @override
@@ -35,7 +37,7 @@ class MenuCard extends StatelessWidget {
               width: 60,
               height: 60,
               decoration: BoxDecoration(
-                gradient: AppColors.primaryGradient,
+                gradient: gradient,
                 borderRadius: BorderRadius.circular(18),
               ),
               child: Icon(icon, color: AppColors.white, size: 27),

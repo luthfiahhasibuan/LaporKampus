@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/app_text_styles.dart';
-import '../widgets/add_report_fab.dart';
-import '../widgets/app_bottom_navigation.dart';
 import '../widgets/app_header.dart';
 import '../widgets/app_scaffold.dart';
 
@@ -295,16 +293,6 @@ class _ReportPageState extends State<ReportPage> {
           ],
         ),
       ),
-      bottomNavigationBar: AppBottomNavigation(
-        currentIndex: _selectedNavIndex,
-        onTap: (index) => setState(() => _selectedNavIndex = index),
-      ),
-      floatingActionButton: AddReportFab(
-        onPressed: () {
-          // Sudah di halaman tulis laporan; bisa dipakai untuk fokus ke form
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

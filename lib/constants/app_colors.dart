@@ -32,9 +32,12 @@ class AppColors {
     end: Alignment.centerRight,
   );
 
-  static const LinearGradient goldenGradient = LinearGradient(
-    colors: [primary, golden],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+  static const LinearGradient secondaryGradient = LinearGradient(
+    colors: [
+      Color.fromARGB(255, 250, 161, 26),
+      Color.fromARGB(255, 240, 193, 93),
+    ],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
   );
 }

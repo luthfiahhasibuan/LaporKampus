@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../constants/app_colors.dart';
 import '../widgets/app_header.dart';
-import '../widgets/app_bottom_navigation.dart';
 
 class MyReportPage extends StatefulWidget {
   const MyReportPage({super.key});
@@ -201,12 +200,6 @@ class _MyReportPageState extends State<MyReportPage> {
           ],
         ),
       ),
-
-      bottomNavigationBar: AppBottomNavigation(
-        currentIndex: _selectedNavIndex,
-        onTap: (index) => setState(() => _selectedNavIndex = index),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 

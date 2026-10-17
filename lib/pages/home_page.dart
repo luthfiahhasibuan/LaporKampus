@@ -4,6 +4,8 @@ import '../widgets/app_header.dart';
 import '../widgets/menu_card.dart';
 import '../widgets/statistics_section.dart';
 import '../widgets/welcome_card.dart';
+import '../constants/app_colors.dart';
+import '../widgets/recent_reports_card.dart';
 
 class HomePage extends StatelessWidget {
   final VoidCallback onNewReport;
@@ -34,11 +36,13 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 25),
                   const StatisticsSection(total: 5, sent: 0, responded: 0),
+
                   const SizedBox(height: 30),
                   MenuCard(
                     icon: Icons.edit_square,
                     title: 'Tulis Laporan Baru',
                     subtitle: 'Sampaikan keluhan dan aspirasi anda',
+                    gradient: AppColors.secondaryGradient,
                     onTap: onNewReport,
                   ),
                   const SizedBox(height: 20),
@@ -46,8 +50,12 @@ class HomePage extends StatelessWidget {
                     icon: Icons.format_list_bulleted,
                     title: 'Lihat Laporan Saya',
                     subtitle: 'Pantau status semua laporan anda',
+                    gradient: AppColors.primaryGradient,
                     onTap: onOpenMyReports,
                   ),
+
+                  const SizedBox(height: 30),
+                  const RecentReportsCard(reports: []),
                 ],
               ),
             ),
