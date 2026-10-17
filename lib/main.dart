@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'pages/home_page.dart';
+import 'pages/main_shell.dart';
 
 void main() {
   runApp(const LaporKampusApp());
@@ -17,7 +17,7 @@ class LaporKampusApp extends StatelessWidget {
 
       theme: ThemeData(useMaterial3: true, fontFamily: 'Poppins'),
 
-      home: const HomePage(),
+      home: const MainShell(),
     );
   }
 }

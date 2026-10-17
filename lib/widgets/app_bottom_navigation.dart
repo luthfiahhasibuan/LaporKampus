@@ -65,23 +65,25 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = selected ? AppColors.primary : AppColors.muted;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            size: 27,
-            color: selected ? AppColors.primary : AppColors.muted,
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            child: Icon(icon, key: ValueKey(selected), size: 27, color: color),
           ),
           const SizedBox(height: 2),
           Text(
             label,
-            style: selected
-                ? AppTextStyles.navLabelSelected
-                : AppTextStyles.navLabel,
+            style:
+                (selected
+                        ? AppTextStyles.navLabelSelected
+                        : AppTextStyles.navLabel)
+                    .copyWith(color: color),
           ),
         ],
       ),

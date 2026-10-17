@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_text_styles.dart';
 import '../widgets/app_scaffold.dart';
-import 'home_page.dart';
+import 'main_shell.dart';
 import 'signup_page.dart';
 
 class SignInPage extends StatelessWidget {
@@ -69,7 +69,7 @@ class SignInPage extends StatelessWidget {
                 // Username Text Field
                 TextField(
                   style: AppTextStyles.fieldInput,
-                  keyboardType: TextInputType.url,
+                  keyboardType: TextInputType.text,
 
                   decoration: InputDecoration(
                     labelText: 'Username',
@@ -141,11 +141,12 @@ class SignInPage extends StatelessWidget {
 
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const HomePage(),
+                          builder: (context) => const MainShell(),
                         ),
+                        (route) => false,
                       );
                     },
 

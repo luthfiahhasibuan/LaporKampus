@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_colors.dart';
 import 'statistic_card.dart';
 
 /// Baris berisi tiga StatisticCard. Angka dikirim dari luar

@@ -4,7 +4,7 @@ import '../constants/app_colors.dart';
 import '../constants/app_text_styles.dart';
 import '../widgets/app_scaffold.dart';
 import 'signin_page.dart';
-import 'home_page.dart';
+import 'main_shell.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -243,11 +243,12 @@ class SignUpPage extends StatelessWidget {
 
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const HomePage(),
+                          builder: (context) => const MainShell(),
                         ),
+                        (route) => false,
                       );
                     },
 
