@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'pages/signin_page.dart';
+import 'models/app_routes.dart';
 
-void main() {
-  runApp(const LaporKampusApp());
-}
+void main() => runApp(const LaporKampusApp());
 
 class LaporKampusApp extends StatelessWidget {
   const LaporKampusApp({super.key});
@@ -13,11 +11,9 @@ class LaporKampusApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Lapor Pak Rektor',
-
-      theme: ThemeData(useMaterial3: true, fontFamily: 'Poppins'),
-
-      home: const SignInPage(),
+      title: 'Lapor Kampus',
+      initialRoute: AppRoutes.initial,
+      routes: AppRoutes.routes,
     );
   }
 }

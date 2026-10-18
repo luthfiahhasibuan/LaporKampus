@@ -8,12 +8,14 @@ class StatisticCard extends StatelessWidget {
   final IconData icon;
   final String number;
   final String label;
+  final Color color;
 
   const StatisticCard({
     super.key,
     required this.icon,
     required this.number,
     required this.label,
+    required this.color,
   });
 
   @override
@@ -34,7 +36,7 @@ class StatisticCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: AppColors.primary, size: 21),
+          Icon(icon, color: color, size: 21),
           const SizedBox(height: 4),
           Text(number, style: AppTextStyles.statNumber),
           const SizedBox(height: 4),

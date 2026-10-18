@@ -5,7 +5,7 @@ import '../widgets/app_bottom_navigation.dart';
 import '../widgets/app_scaffold.dart';
 import 'home_page.dart';
 import 'my_report_page.dart';
-import 'report_page.dart';
+import '../models/app_routes.dart';
 
 class MainShell extends StatefulWidget {
   const MainShell({super.key});
@@ -20,12 +20,9 @@ class _MainShellState extends State<MainShell> {
   void _goToTab(int index) => setState(() => _currentIndex = index);
 
   Future<void> _openNewReport() async {
-    final result = await Navigator.push<String>(
-      context,
-      MaterialPageRoute(builder: (_) => const ReportPage()),
-    );
+    final result = await Navigator.pushNamed(context, AppRoutes.report);
     if (!mounted) return;
-    if (result != null) _showMessage('Laporan "$result" terkirim');
+    if (result is String) _showMessage('Laporan "$result" terkirim');
   }
 
   void _showMessage(String message) {

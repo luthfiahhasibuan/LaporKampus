@@ -84,9 +84,19 @@ class RecentReportsCard extends StatelessWidget {
           if (items.isEmpty)
             const Padding(
               padding: EdgeInsets.all(24),
-              child: Text(
-                'Belum ada laporan',
-                style: TextStyle(color: Colors.black54),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.inbox_outlined,
+                    size: 60,
+                    color: AppColors.textGrey,
+                  ),
+                  SizedBox(height: 12),
+                  Text(
+                    'Belum ada laporan',
+                    style: TextStyle(color: Colors.black54),
+                  ),
+                ],
               ),
             )
           else ...[

@@ -24,6 +24,7 @@ class StatisticsSection extends StatelessWidget {
           Expanded(
             child: StatisticCard(
               icon: Icons.folder,
+              color: Colors.blue,
               number: '$total',
               label: 'Total',
             ),
@@ -32,6 +33,7 @@ class StatisticsSection extends StatelessWidget {
           Expanded(
             child: StatisticCard(
               icon: Icons.send,
+              color: Colors.orange,
               number: '$sent',
               label: 'Terkirim',
             ),
@@ -40,6 +42,7 @@ class StatisticsSection extends StatelessWidget {
           Expanded(
             child: StatisticCard(
               icon: Icons.check_circle,
+              color: Colors.green,
               number: '$responded',
               label: 'Ditanggapi',
             ),

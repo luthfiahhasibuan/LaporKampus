@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
                     icon: Icons.edit_square,
                     title: 'Tulis Laporan Baru',
                     subtitle: 'Sampaikan keluhan dan aspirasi anda',
-                    gradient: AppColors.secondaryGradient,
+                    gradient: AppColors.primaryGradient,
                     onTap: onNewReport,
                   ),
                   const SizedBox(height: 20),
@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
                     icon: Icons.format_list_bulleted,
                     title: 'Lihat Laporan Saya',
                     subtitle: 'Pantau status semua laporan anda',
-                    gradient: AppColors.primaryGradient,
+                    gradient: AppColors.secondaryGradient,
                     onTap: onOpenMyReports,
                   ),
 

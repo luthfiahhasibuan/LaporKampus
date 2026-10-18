@@ -26,7 +26,7 @@ class _ReportPageState extends State<ReportPage> {
 
   String _selectedCategory = 'Lainnya';
   String? _selectedFileName;
-  int _selectedNavIndex = 0;
+  // int _selectedNavIndex = 0;
 
   @override
   void dispose() {
