@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/app_colors.dart';
 import '../constants/app_text_styles.dart';
+import '../models/app_routes.dart';
 
 class AppHeader extends StatelessWidget {
   const AppHeader({super.key});
@@ -38,22 +39,27 @@ class _Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 35,
-      height: 35,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: AppColors.golden,
-        border: Border.all(color: AppColors.white, width: 2),
-        boxShadow: const [
-          BoxShadow(
-            color: AppColors.shadow,
-            blurRadius: 4,
-            offset: Offset(0, 2),
-          ),
-        ],
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, AppRoutes.profile),
+      child: Container(
+        width: 35,
+        height: 35,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: AppColors.golden,
+          border: Border.all(color: AppColors.white, width: 2),
+          boxShadow: const [
+            BoxShadow(
+              color: AppColors.shadow,
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: const Center(
+          child: Text('🧟‍♀️', style: TextStyle(fontSize: 23)),
+        ),
       ),
-      child: const Center(child: Text('🧟‍♀️', style: TextStyle(fontSize: 23))),
     );
   }
 }

@@ -49,6 +49,13 @@ class _SignInPageState extends State<SignInPage> {
       return;
     }
 
+    if (index == -1) {
+      // ...snackbar error...
+      return;
+    }
+
+    currentUser = dummyUsers[index];
+
     // Login berhasil -> masuk ke halaman utama
     Navigator.pushNamedAndRemoveUntil(context, AppRoutes.main, (r) => false);
   }
@@ -124,6 +131,7 @@ class _SignInPageState extends State<SignInPage> {
                         : null,
                   ),
                   const SizedBox(height: 18),
+
                   AuthTextField(
                     controller: _passC,
                     label: 'Password',
