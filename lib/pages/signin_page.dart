@@ -5,6 +5,7 @@ import '../constants/app_text_styles.dart';
 import '../widgets/app_scaffold.dart';
 import '../data/dummy_data.dart';
 import '../models/app_routes.dart';
+import '../widgets/auth_text_field.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -38,7 +39,6 @@ class _SignInPageState extends State<SignInPage> {
     );
 
     if (index == -1) {
-      // Pesan sengaja dibuat umum agar tidak membocorkan
       // apakah username-nya terdaftar atau tidak
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -113,95 +113,37 @@ class _SignInPageState extends State<SignInPage> {
 
                   const SizedBox(height: 30),
 
-                  // Username Text Field
-                  TextFormField(
+                  AuthTextField(
                     controller: _usernameC,
-                    style: AppTextStyles.fieldInput,
+                    label: 'Username',
+                    hint: 'Masukkan username kamu',
+                    icon: Icons.person_outline,
                     keyboardType: TextInputType.text,
-
-                    decoration: InputDecoration(
-                      labelText: 'Username',
-                      labelStyle: AppTextStyles.fieldLabel,
-                      hintText: 'Masukkan username kamu',
-                      hintStyle: AppTextStyles.fieldHint,
-
-                      prefixIcon: const Icon(Icons.person_outline),
-                      prefixIconColor: AppColors.white,
-
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppColors.white,
-                          width: 2,
-                        ),
-                      ),
-
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppColors.golden,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-
                     validator: (v) => (v == null || v.trim().isEmpty)
                         ? 'Username tidak boleh kosong'
                         : null,
                   ),
-
                   const SizedBox(height: 18),
-
-                  // Password Text Field
-                  TextFormField(
+                  AuthTextField(
                     controller: _passC,
+                    label: 'Password',
+                    hint: 'Masukkan password kamu',
+                    icon: Icons.lock_outline,
                     obscureText: true,
-                    style: AppTextStyles.fieldInput,
-
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      labelStyle: AppTextStyles.fieldLabel,
-                      hintText: 'Masukkan password kamu',
-                      hintStyle: AppTextStyles.fieldHint,
-
-                      prefixIcon: const Icon(Icons.lock_outline),
-                      prefixIconColor: AppColors.white,
-
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppColors.white,
-                          width: 2,
-                        ),
-                      ),
-
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppColors.golden,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-
                     validator: (v) => (v == null || v.isEmpty)
                         ? 'Password tidak boleh kosong'
                         : null,
                   ),
-
                   const SizedBox(height: 25),
 
                   // Login Button
                   SizedBox(
                     width: double.infinity,
                     height: 52,
-
                     child: ElevatedButton(
                       onPressed: _submit,
-
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.white,
-
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -219,7 +161,6 @@ class _SignInPageState extends State<SignInPage> {
                   // Register Link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-
                     children: [
                       const Text(
                         'Belum punya akun? ',

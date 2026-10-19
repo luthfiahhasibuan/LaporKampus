@@ -2,10 +2,9 @@ import '../models/user_model.dart';
 
 // "Database" sementara (hilang saat aplikasi di-restart)
 final List<UserModel> dummyUsers = [
-  UserModel(username: 'luthfiahhasibuan', password: 'luthfi1234'),
   UserModel(
-    nim: '87654321',
-    name: 'Budi Santoso',
+    nim: '231401125',
+    name: 'Luthfiah Hasibuan',
     username: 'luthfiahhasibuan',
     password: 'luthfi1234',
   ),

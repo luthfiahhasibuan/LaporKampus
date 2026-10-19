@@ -6,7 +6,7 @@ import '../widgets/app_scaffold.dart';
 import '../models/app_routes.dart';
 import '../data/dummy_data.dart';
 import '../models/user_model.dart';
-import '../utils/validators.dart';
+import '../widgets/auth_text_field.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -43,7 +43,6 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void _submit() {
-    // Jalankan semua validator; berhenti jika ada yang error
     if (!_formKey.currentState!.validate()) return;
 
     final nim = _nimC.text.trim();
@@ -63,7 +62,6 @@ class _SignUpPageState extends State<SignUpPage> {
       return;
     }
 
-    // Simpan ke dummy data
     dummyUsers.add(
       UserModel(
         nim: nim,
@@ -140,182 +138,67 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(height: 30),
 
                   // NIM text field
-                  TextFormField(
+                  AuthTextField(
                     controller: _nimC,
-                    style: AppTextStyles.fieldInput,
+                    label: 'Nim',
+                    hint: 'Masukkan NIM kamu',
+                    icon: Icons.person_outline,
                     keyboardType: TextInputType.number,
-
-                    decoration: InputDecoration(
-                      labelText: 'NIM',
-                      labelStyle: AppTextStyles.fieldLabel,
-                      hintText: 'Masukkan NIM',
-                      hintStyle: AppTextStyles.fieldHint,
-
-                      prefixIcon: const Icon(Icons.person_outline),
-                      prefixIconColor: AppColors.white,
-
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppColors.white,
-                          width: 2,
-                        ),
-                      ),
-
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppColors.golden,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    validator: Validators.nim,
+                    validator: (v) => (v == null || v.trim().isEmpty)
+                        ? 'NIM tidak boleh kosong'
+                        : null,
                   ),
 
                   const SizedBox(height: 18),
 
-                  // Nama Lengkap Text Field
-                  TextFormField(
+                  AuthTextField(
                     controller: _nameC,
-                    style: AppTextStyles.fieldInput,
+                    label: 'Name',
+                    hint: 'Masukkan nama kamu',
+                    icon: Icons.person_outline,
                     keyboardType: TextInputType.text,
-
-                    decoration: InputDecoration(
-                      labelText: 'Nama Lengkap',
-                      labelStyle: AppTextStyles.fieldLabel,
-                      hintText: 'Masukkan nama',
-                      hintStyle: AppTextStyles.fieldHint,
-
-                      prefixIcon: const Icon(Icons.person_outline),
-                      prefixIconColor: AppColors.white,
-
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppColors.white,
-                          width: 2,
-                        ),
-                      ),
-
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppColors.golden,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    validator: Validators.name,
+                    validator: (v) => (v == null || v.trim().isEmpty)
+                        ? 'Nama tidak boleh kosong'
+                        : null,
                   ),
 
                   const SizedBox(height: 18),
 
-                  // Username Text Field
-                  TextFormField(
+                  AuthTextField(
                     controller: _usernameC,
-                    style: AppTextStyles.fieldInput,
+                    label: 'Username',
+                    hint: 'Masukkan username kamu',
+                    icon: Icons.person_outline,
                     keyboardType: TextInputType.text,
-
-                    decoration: InputDecoration(
-                      labelText: 'Username',
-                      labelStyle: AppTextStyles.fieldLabel,
-                      hintText: 'Masukkan username',
-                      hintStyle: AppTextStyles.fieldHint,
-
-                      prefixIcon: const Icon(Icons.person_outline),
-                      prefixIconColor: AppColors.white,
-
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppColors.white,
-                          width: 2,
-                        ),
-                      ),
-
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppColors.golden,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    validator: Validators.username,
+                    validator: (v) => (v == null || v.trim().isEmpty)
+                        ? 'Username tidak boleh kosong'
+                        : null,
                   ),
 
                   const SizedBox(height: 18),
 
-                  // Password Text Field
-                  TextFormField(
+                  AuthTextField(
                     controller: _passC,
+                    label: 'Password',
+                    hint: 'Masukkan password kamu',
+                    icon: Icons.lock_outline,
                     obscureText: true,
-                    style: AppTextStyles.fieldInput,
-
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      labelStyle: AppTextStyles.fieldLabel,
-                      hintText: 'Masukkan password kamu',
-                      hintStyle: AppTextStyles.fieldHint,
-
-                      prefixIcon: const Icon(Icons.lock_outline),
-                      prefixIconColor: AppColors.white,
-
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppColors.white,
-                          width: 2,
-                        ),
-                      ),
-
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppColors.golden,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    validator: Validators.password,
+                    validator: (v) => (v == null || v.isEmpty)
+                        ? 'Password tidak boleh kosong'
+                        : null,
                   ),
 
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 18),
 
-                  // Konfirmasi Password Text Field
-                  TextFormField(
-                    controller: _confirmC,
+                  AuthTextField(
+                    controller: _passC,
+                    label: 'Ulangi password',
+                    hint: 'Musukkan password kamu',
+                    icon: Icons.lock_outline,
                     obscureText: true,
-                    style: AppTextStyles.fieldInput,
-
-                    decoration: InputDecoration(
-                      labelText: 'Konfirmasi Password',
-                      labelStyle: AppTextStyles.fieldLabel,
-                      hintText: 'Ulangi password',
-                      hintStyle: AppTextStyles.fieldHint,
-
-                      prefixIcon: const Icon(Icons.person_outline),
-                      prefixIconColor: AppColors.white,
-
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppColors.white,
-                          width: 2,
-                        ),
-                      ),
-
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: AppColors.golden,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    validator: (v) =>
-                        Validators.confirmPassword(v, _passC.text),
+                    validator: (v) => (v == null || v.isEmpty)
+                        ? 'Password tidak boleh kosong'
+                        : null,
                   ),
 
                   const SizedBox(height: 18),
