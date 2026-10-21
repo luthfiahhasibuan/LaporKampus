@@ -6,6 +6,9 @@ import '../widgets/statistics_section.dart';
 import '../widgets/welcome_card.dart';
 import '../constants/app_colors.dart';
 import '../widgets/recent_reports_card.dart';
+import '../providers/report_provider.dart';
+
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   final VoidCallback onNewReport;
@@ -35,7 +38,14 @@ class HomePage extends StatelessWidget {
                     universityName: 'Konoha University',
                   ),
                   const SizedBox(height: 25),
-                  const StatisticsSection(total: 5, sent: 0, responded: 0),
+
+                  Consumer<ReportProvider>(
+                    builder: (context, provider, _) => StatisticsSection(
+                      total: provider.total,
+                      sent: provider.sent,
+                      responded: provider.responded,
+                    ),
+                  ),
 
                   const SizedBox(height: 30),
                   MenuCard(

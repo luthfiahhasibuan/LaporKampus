@@ -5,6 +5,9 @@ import '../constants/app_text_styles.dart';
 import '../widgets/app_header.dart';
 import '../widgets/app_scaffold.dart';
 import '../models/report_data.dart';
+import '../providers/report_provider.dart';
+
+import 'package:provider/provider.dart';
 
 class ReportPage extends StatefulWidget {
   const ReportPage({super.key});
@@ -301,6 +304,9 @@ class _ReportPageState extends State<ReportPage> {
                                 Expanded(
                                   child: OutlinedButton(
                                     onPressed: () {
+                                      context.read<ReportProvider>().addReport(
+                                        _titleController.text,
+                                      );
                                       Navigator.pop(context);
                                     },
                                     style: OutlinedButton.styleFrom(
