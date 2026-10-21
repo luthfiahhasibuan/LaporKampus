@@ -6,6 +6,8 @@ class AppColors {
   AppColors._(); // mencegah class ini di-instantiate
 
   static const Color primary = Color(0xFF4E693E);
+  static const Color primaryDark = Color(0xFF3A5030);
+  static const Color primaryLight = Color(0xFF6F8F5C);
   static const Color accent = Color(0xFFF7F7F2);
   static const Color white = Color(0xFFFFFFFF);
   static const Color golden = Color(0xFFDCB359);

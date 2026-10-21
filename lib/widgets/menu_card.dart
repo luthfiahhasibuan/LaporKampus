@@ -8,7 +8,8 @@ class MenuCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final VoidCallback onTap;
-  final Gradient gradient;
+
+  final Gradient? gradient;
 
   const MenuCard({
     super.key,
@@ -16,47 +17,158 @@ class MenuCard extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.onTap,
-    required this.gradient,
+    this.gradient,
   });
+
+  static const double _minHeight = 112;
+
+  static const BorderRadius _shape = BorderRadius.only(
+    topLeft: Radius.circular(32),
+    bottomRight: Radius.circular(32),
+    topRight: Radius.circular(8),
+    bottomLeft: Radius.circular(8),
+  );
+
+  static const Gradient _defaultGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [AppColors.primaryLight, AppColors.primary, AppColors.primaryDark],
+    stops: [0.0, 0.55, 1.0],
+  );
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        height: 80,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(10),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: _shape,
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.30),
+            blurRadius: 16,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Material(
+        type: MaterialType.transparency,
+        borderRadius: _shape,
+        clipBehavior: Clip.antiAlias,
+        child: Ink(
+          decoration: BoxDecoration(
+            gradient: gradient ?? _defaultGradient,
+            borderRadius: _shape,
+          ),
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: _shape,
+            splashColor: Colors.white.withValues(alpha: 0.15),
+            highlightColor: Colors.white.withValues(alpha: 0.08),
+            child: Stack(
+              children: [
+                _buildCircle(top: -34, right: -24, size: 120, alpha: 0.10),
+                _buildCircle(bottom: -48, right: 70, size: 100, alpha: 0.07),
+                _buildContent(),
+              ],
+            ),
+          ),
         ),
+      ),
+    );
+  }
+
+  // Lingkaran transparan
+  Widget _buildCircle({
+    double? top,
+    double? bottom,
+    double? right,
+    required double size,
+    required double alpha,
+  }) {
+    return Positioned(
+      top: top,
+      bottom: bottom,
+      right: right,
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white.withValues(alpha: alpha),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: _minHeight),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(22, 16, 16, 16),
         child: Row(
           children: [
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                gradient: gradient,
-                borderRadius: BorderRadius.circular(18),
-              ),
-              child: Icon(icon, color: AppColors.white, size: 27),
-            ),
+            Expanded(child: _buildTexts()),
             const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: AppTextStyles.menuTitle),
-                  const SizedBox(height: 3),
-                  Text(subtitle, style: AppTextStyles.menuSubtitle),
-                ],
-              ),
-            ),
+            _buildIconBadge(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTexts() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: AppTextStyles.menuTitle.copyWith(color: Colors.white),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(height: 4),
+        Text(
+          subtitle,
+          style: AppTextStyles.menuSubtitle.copyWith(
+            color: Colors.white.withValues(alpha: 0.85),
+          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(height: 10),
+        _buildArrowPill(),
+      ],
+    );
+  }
+
+  Widget _buildArrowPill() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(50),
+      ),
+      child: const Icon(
+        Icons.arrow_forward_rounded,
+        size: 16,
+        color: Colors.white,
+      ),
+    );
+  }
+
+  Widget _buildIconBadge() {
+    return Container(
+      width: 64,
+      height: 64,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.white.withValues(alpha: 0.18),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.35),
+          width: 1.5,
+        ),
+      ),
+      child: Icon(icon, color: Colors.white, size: 30),
     );
   }
 }

@@ -4,6 +4,7 @@ import '../constants/app_colors.dart';
 import '../constants/app_text_styles.dart';
 import '../widgets/app_header.dart';
 import '../widgets/app_scaffold.dart';
+import '../models/report_data.dart';
 
 class ReportPage extends StatefulWidget {
   const ReportPage({super.key});
@@ -62,6 +63,42 @@ class _ReportPageState extends State<ReportPage> {
       _selectedCategory = 'Lainnya';
       _selectedFileName = null;
     });
+  }
+
+  void _submitReport() {
+    final title = _titleController.text.trim();
+    final description = _descriptionController.text.trim();
+
+    // Validasi formulir.
+    if (title.isEmpty || description.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Judul dan isi laporan wajib diisi!')),
+      );
+      return;
+    }
+
+    // Simpan laporan ke data dummy.
+    DummyReportStore.addReport(
+      ReportData(
+        title: title,
+        category: _selectedCategory,
+        description: description,
+      ),
+    );
+
+    // Tampilkan notifikasi berhasil.
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Laporan berhasil dikirim!'),
+        backgroundColor: Colors.green,
+      ),
+    );
+
+    // Kosongkan formulir.
+    _resetForm();
+
+    // Kembali ke halaman sebelumnya setelah notifikasi.
+    Navigator.pop(context);
   }
 
   @override
@@ -247,9 +284,7 @@ class _ReportPageState extends State<ReportPage> {
                                 Expanded(
                                   flex: 2,
                                   child: ElevatedButton.icon(
-                                    onPressed: () {
-                                      // TODO: validasi lalu kirim laporan
-                                    },
+                                    onPressed: _submitReport,
                                     icon: const Icon(Icons.send, size: 18),
                                     label: const Text('Kirim'),
                                     style: ElevatedButton.styleFrom(
@@ -265,7 +300,9 @@ class _ReportPageState extends State<ReportPage> {
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: OutlinedButton(
-                                    onPressed: _resetForm,
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
                                     style: OutlinedButton.styleFrom(
                                       foregroundColor: AppColors.primary,
                                       minimumSize: const Size.fromHeight(46),
