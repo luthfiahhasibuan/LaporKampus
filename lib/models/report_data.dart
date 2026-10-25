@@ -2,6 +2,7 @@ class ReportData {
   final String title;
   final String category;
   final String description;
+  final String? imagePath;
   String status;
   final DateTime createdAt;
 
@@ -9,6 +10,7 @@ class ReportData {
     required this.title,
     required this.category,
     required this.description,
+    this.imagePath,
     this.status = 'Menunggu',
     DateTime? createdAt,
   }) : createdAt = createdAt ?? DateTime.now();

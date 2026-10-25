@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Semua warna aplikasi disimpan di sini.
-/// Pakai: AppColors.primary
 class AppColors {
   AppColors._(); // mencegah class ini di-instantiate
 
