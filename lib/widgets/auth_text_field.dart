@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import '../utils/app_theme.dart';
 import '../utils/responsive.dart';
 
-/// Text field bergaya auth (border putih, fokus emas) yang dipakai ulang
-/// di halaman Sign In dan Sign Up.
 class AuthTextField extends StatelessWidget {
   const AuthTextField({
     super.key,

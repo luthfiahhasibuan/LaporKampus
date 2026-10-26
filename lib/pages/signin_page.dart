@@ -5,6 +5,7 @@ import '../widgets/app_scaffold.dart';
 import '../data/dummy_data.dart';
 import '../models/app_routes.dart';
 import '../widgets/auth_text_field.dart';
+import '../utils/responsive.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -61,6 +62,7 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    final r = context.r;
     return AppScaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -107,7 +109,13 @@ class _SignInPageState extends State<SignInPage> {
                   const SizedBox(height: 20),
 
                   // Title
-                  const Text('LAPOR KAMPUS', style: AppTextStyles.authTitle),
+                  Text(
+                    'LAPOR KAMPUS',
+                    style: AppTextStyles.bold(
+                      r.font(7.2),
+                      color: AppColors.white,
+                    ),
+                  ),
 
                   const SizedBox(height: 8),
 
@@ -156,9 +164,12 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                       ),
 
-                      child: const Text(
+                      child: Text(
                         'Masuk',
-                        style: AppTextStyles.buttonText,
+                        style: AppTextStyles.bold(
+                          r.font(4.4),
+                          color: AppColors.primary,
+                        ),
                       ),
                     ),
                   ),

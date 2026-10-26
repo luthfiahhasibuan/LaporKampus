@@ -461,7 +461,7 @@ class _ReportPageState extends State<ReportPage> {
           '${_image!.name} · ${_formatSize(bytes.length)}',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: r.ts(AppTextStyles.formHint),
+          style: AppTextStyles.regular(r.font(3.6), color: AppColors.textGrey),
         ),
       ],
     );

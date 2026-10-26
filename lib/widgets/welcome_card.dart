@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils/app_theme.dart';
+import '../utils/responsive.dart';
 
 class WelcomeCard extends StatelessWidget {
   final String name;
@@ -14,6 +15,7 @@ class WelcomeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final r = context.r;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),

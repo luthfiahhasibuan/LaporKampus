@@ -6,6 +6,7 @@ import '../models/app_routes.dart';
 import '../data/dummy_data.dart';
 import '../models/user_model.dart';
 import '../widgets/auth_text_field.dart';
+import '../utils/responsive.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -78,6 +79,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    final r = context.r;
     return AppScaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -124,7 +126,13 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(height: 20),
 
                   // Title
-                  Text('LAPOR KAMPUS', style: AppTextStyles.bold(r.font(7.2), color: AppColors.white),
+                  Text(
+                    'LAPOR KAMPUS',
+                    style: AppTextStyles.bold(
+                      r.font(7.2),
+                      color: AppColors.white,
+                    ),
+                  ),
 
                   const SizedBox(height: 8),
 
@@ -218,9 +226,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
 
-                      child: const Text(
+                      child: Text(
                         'Daftar',
-                        style: AppTextStyles.bold(r.font(4.4), color: AppColors.primary),
+                        style: AppTextStyles.bold(
+                          r.font(4.4),
+                          color: AppColors.primary,
+                        ),
                       ),
                     ),
                   ),
