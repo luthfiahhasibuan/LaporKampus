@@ -45,7 +45,7 @@ class _MyReportPageState extends State<MyReportPage> {
           children: [
             Text(
               report.title,
-              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 8),
             Text('Kategori: ${report.category}'),

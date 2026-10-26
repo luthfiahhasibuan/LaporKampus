@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_colors.dart';
-import '../constants/app_text_styles.dart';
+import '../utils/app_theme.dart';
+import '../utils/responsive.dart';
 
 /// Text field bergaya auth (border putih, fokus emas) yang dipakai ulang
 /// di halaman Sign In dan Sign Up.
@@ -32,16 +32,17 @@ class AuthTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final r = context.r;
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
-      style: AppTextStyles.fieldInput,
+      style: AppTextStyles.regular(r.font(4), color: AppColors.white),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: AppTextStyles.fieldLabel,
+        labelStyle: AppTextStyles.regular(r.font(4), color: AppColors.white),
         hintText: hint,
-        hintStyle: AppTextStyles.fieldHint,
+        hintStyle: AppTextStyles.regular(r.font(4), color: AppColors.white),
         prefixIcon: Icon(icon),
         prefixIconColor: AppColors.white,
         enabledBorder: _border(AppColors.white),

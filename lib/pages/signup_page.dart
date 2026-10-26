@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_colors.dart';
-import '../constants/app_text_styles.dart';
+import '../utils/app_theme.dart';
 import '../widgets/app_scaffold.dart';
 import '../models/app_routes.dart';
 import '../data/dummy_data.dart';
@@ -125,7 +124,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(height: 20),
 
                   // Title
-                  const Text('LAPOR KAMPUS', style: AppTextStyles.authTitle),
+                  Text('LAPOR KAMPUS', style: AppTextStyles.bold(r.font(7.2), color: AppColors.white),
 
                   const SizedBox(height: 8),
 
@@ -221,7 +220,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                       child: const Text(
                         'Daftar',
-                        style: AppTextStyles.buttonText,
+                        style: AppTextStyles.bold(r.font(4.4), color: AppColors.primary),
                       ),
                     ),
                   ),

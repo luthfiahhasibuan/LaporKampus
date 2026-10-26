@@ -12,23 +12,17 @@ class Responsive {
   double sp(double percent) => base * percent / 100;
   double font(double percent) => base * percent / 100;
 
-  TextStyle ts(TextStyle style) {
-    final fontSize = style.fontSize;
-    if (fontSize == null) return style;
-    return style.copyWith(fontSize: fontSize * math.min(base / 390, 1.3));
-  }
-
   // Jarak
   double get gap => sp(4);
   double get gapS => gap / 2;
   double get pad => sp(5);
-  double get bottom => sp(25); // ruang kosong di bawah halaman
+  double get bottom => sp(25);
 
   // Bentuk
   double get radius => sp(4);
   double get radiusS => radius / 2;
   double get icon => sp(6);
-  double get button => sp(12); // tinggi tombol
+  double get button => sp(12);
   double get stroke => math.max(1.0, sp(0.3));
   double get strokeThick => stroke * 2;
 

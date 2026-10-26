@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_colors.dart';
+import '../utils/app_theme.dart';
 import '../data/dummy_data.dart';
 import '../models/app_routes.dart';
 import '../models/user_model.dart';

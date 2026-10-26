@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_colors.dart';
-import '../constants/app_text_styles.dart';
+import '../utils/app_theme.dart';
 import '../widgets/app_scaffold.dart';
 import '../data/dummy_data.dart';
 import '../models/app_routes.dart';

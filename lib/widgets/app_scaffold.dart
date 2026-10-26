@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_colors.dart';
+import '../utils/app_theme.dart';
 
 class AppScaffold extends StatelessWidget {
   final PreferredSizeWidget? appBar;

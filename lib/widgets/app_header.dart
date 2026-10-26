@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_colors.dart';
-import '../constants/app_text_styles.dart';
+import '../utils/app_theme.dart';
 import '../models/app_routes.dart';
+import '../utils/responsive.dart';
 
 class AppHeader extends StatelessWidget {
   const AppHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final r = context.r;
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       decoration: const BoxDecoration(
@@ -25,7 +26,7 @@ class AppHeader extends StatelessWidget {
         children: [
           Image.asset('assets/icon_app.png', width: 55, height: 55),
           const SizedBox(width: 10),
-          const Text('LAPOR KAMPUS', style: AppTextStyles.appTitle),
+          Text('LAPOR KAMPUS', style: AppTextStyles.bold(r.font(5.6))),
           const Spacer(),
           const _Avatar(),
         ],

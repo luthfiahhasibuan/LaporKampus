@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../constants/app_colors.dart';
-import '../constants/app_text_styles.dart';
 import '../widgets/app_header.dart';
 import '../widgets/app_scaffold.dart';
 import '../models/report_data.dart';
 import '../providers/report_provider.dart';
 import '../utils/responsive.dart';
+import '../utils/app_theme.dart';
 
 class ReportPage extends StatefulWidget {
   const ReportPage({super.key});
@@ -155,13 +154,8 @@ class _ReportPageState extends State<ReportPage> {
     _showMessage('Laporan berhasil dikirim!', color: Colors.green);
     _resetForm();
 
-    // Kembali ke halaman sebelumnya setelah notifikasi.
     Navigator.pop(context);
   }
-
-  // ---------------------------------------------------------------------------
-  // TAMPILAN
-  // ---------------------------------------------------------------------------
 
   // Dekorasi yang sama untuk semua input di form ini
   InputDecoration _inputDecoration(
@@ -178,7 +172,7 @@ class _ReportPageState extends State<ReportPage> {
 
     return InputDecoration(
       hintText: hint,
-      hintStyle: r.ts(AppTextStyles.formHint),
+      hintStyle: AppTextStyles.regular(r.font(3.6), color: AppColors.textGrey),
       prefixIcon: icon == null ? null : Icon(icon),
       prefixIconColor: AppColors.primary,
       filled: true,
@@ -196,7 +190,7 @@ class _ReportPageState extends State<ReportPage> {
         children: [
           Icon(icon, size: r.gap, color: AppColors.primary),
           SizedBox(width: r.gapS),
-          Text(text, style: r.ts(AppTextStyles.formLabel)),
+          Text(text, style: AppTextStyles.bold(r.font(3.8))),
         ],
       ),
     );
@@ -256,7 +250,7 @@ class _ReportPageState extends State<ReportPage> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)],
+          colors: [AppColors.primaryLight, AppColors.primary],
         ),
       ),
       child: Row(
@@ -280,12 +274,14 @@ class _ReportPageState extends State<ReportPage> {
               children: [
                 Text(
                   'Tulis Laporan Baru',
-                  style: r.ts(AppTextStyles.reportTitle),
+                  style: AppTextStyles.bold(
+                    r.font(4.6),
+                    color: AppColors.white,
+                  ),
                 ),
                 Text(
                   'Sampaikan masalah dengan jelas agar cepat ditangani.',
-                  style: r
-                      .ts(AppTextStyles.formInput)
+                  style: AppTextStyles.regular(r.font(4))
                       .copyWith(color: AppColors.white.withValues(alpha: 0.85)),
                 ),
               ],
@@ -306,7 +302,7 @@ class _ReportPageState extends State<ReportPage> {
           _label(r, Icons.place_outlined, 'Lokasi Laporan'),
           TextField(
             controller: _titleController,
-            style: r.ts(AppTextStyles.formInput),
+            style: AppTextStyles.regular(r.font(4)),
             keyboardType: TextInputType.text,
             decoration: _inputDecoration(
               r,
@@ -327,7 +323,7 @@ class _ReportPageState extends State<ReportPage> {
           _label(r, Icons.notes_outlined, 'Isi Laporan'),
           TextField(
             controller: _descriptionController,
-            style: r.ts(AppTextStyles.formInput),
+            style: AppTextStyles.regular(r.font(4)),
             keyboardType: TextInputType.multiline,
             minLines: r.lines,
             maxLines: r.lines,
@@ -370,8 +366,7 @@ class _ReportPageState extends State<ReportPage> {
       avatar: Icon(icon, size: r.gap, color: color),
       label: Text(
         name,
-        style: r
-            .ts(AppTextStyles.formInput)
+        style: AppTextStyles.regular(r.font(4))
             .copyWith(color: selected ? AppColors.white : null),
       ),
       selected: selected,
@@ -417,12 +412,15 @@ class _ReportPageState extends State<ReportPage> {
               SizedBox(height: r.gapS),
               Text(
                 'Ketuk untuk memilih foto',
-                style: r.ts(AppTextStyles.formLabel),
+                style: AppTextStyles.bold(r.font(3.8)),
               ),
               SizedBox(height: r.gapS),
               Text(
                 'Format: JPG/PNG. Maks. 5MB',
-                style: r.ts(AppTextStyles.formHint),
+                style: AppTextStyles.regular(
+                  r.font(3.6),
+                  color: AppColors.textGrey,
+                ),
               ),
             ],
           ),

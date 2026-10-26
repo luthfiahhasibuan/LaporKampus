@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_colors.dart';
-import '../constants/app_text_styles.dart';
+import '../utils/app_theme.dart';
+import '../utils/responsive.dart';
 
 /// Bottom navigation dengan ruang kosong di tengah untuk FAB.
 /// State (tab aktif) disimpan di halaman, widget ini hanya menampilkan.
@@ -65,6 +65,7 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final r = context.r;
     final color = selected ? AppColors.primary : AppColors.muted;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -81,8 +82,14 @@ class _NavItem extends StatelessWidget {
             label,
             style:
                 (selected
-                        ? AppTextStyles.navLabelSelected
-                        : AppTextStyles.navLabel)
+                        ? AppTextStyles.bold(
+                            r.font(3.3),
+                            color: AppColors.primary,
+                          )
+                        : AppTextStyles.regular(
+                            r.font(3.3),
+                            color: AppColors.textGrey,
+                          ))
                     .copyWith(color: color),
           ),
         ],

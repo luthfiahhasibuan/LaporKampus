@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_colors.dart';
-import '../constants/app_text_styles.dart';
+import '../utils/app_theme.dart';
 
 class WelcomeCard extends StatelessWidget {
   final String name;
@@ -25,14 +24,24 @@ class WelcomeCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Selamat datang..', style: AppTextStyles.welcomeSubtitle),
+          Text(
+            'Selamat datang..',
+            style: AppTextStyles.regular(r.font(4.1), color: Colors.white70),
+          ),
           const SizedBox(height: 4),
-          Text('Halo, $name!', style: AppTextStyles.welcomeTitle),
+          Text(
+            'Halo, $name!',
+            style: AppTextStyles.bold(r.font(5.1), color: AppColors.white),
+          ),
           const SizedBox(height: 5),
           Text(
             'Sampaikan laporan atau aspirasi kamu\n'
             'kepada pihak $universityName',
-            style: AppTextStyles.welcomeBody,
+            style: AppTextStyles.regular(
+              r.font(4.1),
+              color: Colors.white70,
+              height: 1.4,
+            ),
           ),
         ],
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_colors.dart';
-import '../constants/app_text_styles.dart';
+import '../utils/app_theme.dart';
+import '../utils/responsive.dart';
 
 class MenuCard extends StatelessWidget {
   final IconData icon;
@@ -38,6 +38,7 @@ class MenuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final r = context.r;
     return Container(
       decoration: BoxDecoration(
         borderRadius: _shape,
@@ -67,7 +68,7 @@ class MenuCard extends StatelessWidget {
               children: [
                 _buildCircle(top: -34, right: -24, size: 120, alpha: 0.10),
                 _buildCircle(bottom: -48, right: 70, size: 100, alpha: 0.07),
-                _buildContent(),
+                _buildContent(r),
               ],
             ),
           ),
@@ -99,14 +100,14 @@ class MenuCard extends StatelessWidget {
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent(Responsive r) {
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: _minHeight),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(22, 16, 16, 16),
         child: Row(
           children: [
-            Expanded(child: _buildTexts()),
+            Expanded(child: _buildTexts(r)),
             const SizedBox(width: 12),
             _buildIconBadge(),
           ],
@@ -115,23 +116,27 @@ class MenuCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTexts() {
+  Widget _buildTexts(r) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
-          style: AppTextStyles.menuTitle.copyWith(color: Colors.white),
+          style: AppTextStyles.bold(
+            r.font(4.4),
+            color: AppColors.textGreen,
+          ).copyWith(color: Colors.white),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: 4),
         Text(
           subtitle,
-          style: AppTextStyles.menuSubtitle.copyWith(
-            color: Colors.white.withValues(alpha: 0.85),
-          ),
+          style: AppTextStyles.regular(
+            r.font(3.6),
+            color: AppColors.textGrey,
+          ).copyWith(color: Colors.white.withValues(alpha: 0.85)),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
