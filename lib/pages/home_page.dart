@@ -8,6 +8,7 @@ import '../utils/app_theme.dart';
 import '../widgets/recent_reports_card.dart';
 import '../providers/report_provider.dart';
 import '../utils/responsive.dart';
+import '../data/dummy_data.dart';
 
 import 'package:provider/provider.dart';
 
@@ -22,8 +23,8 @@ class HomePage extends StatelessWidget {
   });
 
   Widget _buildWelcome() {
-    return const WelcomeCard(
-      name: 'Luthfi',
+    return WelcomeCard(
+      name: currentUser?.name ?? 'Pengguna',
       universityName: 'Konoha University',
     );
   }
