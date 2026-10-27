@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Satu baris informasi (ikon, label kecil, dan nilai) pada kartu profil.
 class ProfileInfoTile extends StatelessWidget {
   const ProfileInfoTile({
     super.key,

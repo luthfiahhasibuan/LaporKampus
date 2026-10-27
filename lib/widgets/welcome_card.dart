@@ -18,10 +18,10 @@ class WelcomeCard extends StatelessWidget {
     final r = context.r;
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+      padding: EdgeInsets.all(r.gap),
       decoration: BoxDecoration(
         gradient: AppColors.primaryGradient,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(r.radius),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,12 +30,12 @@ class WelcomeCard extends StatelessWidget {
             'Selamat datang..',
             style: AppTextStyles.regular(r.font(4.1), color: Colors.white70),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: r.gapS),
           Text(
             'Halo, $name!',
             style: AppTextStyles.bold(r.font(5.1), color: AppColors.white),
           ),
-          const SizedBox(height: 5),
+          SizedBox(height: r.gapS),
           Text(
             'Sampaikan laporan atau aspirasi kamu\n'
             'kepada pihak $universityName',

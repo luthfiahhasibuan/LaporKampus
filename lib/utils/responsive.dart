@@ -8,6 +8,7 @@ class Responsive {
   final Size size;
 
   double get base => math.min(size.shortestSide, 600);
+  bool get isLandscape => size.width > size.height;
 
   double sp(double percent) => base * percent / 100;
   double font(double percent) => base * percent / 100;

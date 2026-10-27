@@ -21,26 +21,6 @@ class HomePage extends StatelessWidget {
     required this.onOpenMyReports,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          const AppHeader(),
-          Expanded(
-            child: OrientationBuilder(
-              builder: (context, orientation) {
-                return orientation == Orientation.landscape
-                    ? _buildLandscape(context)
-                    : _buildPortrait(context);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildWelcome() {
     return const WelcomeCard(
       name: 'Luthfi',
@@ -48,8 +28,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildContent(BuildContext context) {
-    final r = context.r;
+  List<Widget> _buildContent(Responsive r) {
     return [
       Consumer<ReportProvider>(
         builder: (context, provider, _) => StatisticsSection(
@@ -75,56 +54,54 @@ class HomePage extends StatelessWidget {
         gradient: AppColors.secondaryGradient,
         onTap: onOpenMyReports,
       ),
-
       SizedBox(height: r.gap),
       const RecentReportsCard(reports: []),
     ];
   }
 
-  Widget _buildPortrait(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     final r = context.r;
-    return SingleChildScrollView(
+    final isLandscape = r.isLandscape;
+
+    final scrollable = SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.fromLTRB(r.pad, r.pad, r.pad, r.bottom),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildWelcome(),
-          SizedBox(height: r.gap),
-          ..._buildContent(context),
+          if (!isLandscape) ...[_buildWelcome(), SizedBox(height: r.gap)],
+          ..._buildContent(r),
         ],
       ),
     );
-  }
 
-  Widget _buildLandscape(BuildContext context) {
-    final r = context.r;
-    return Padding(
-      padding: EdgeInsets.fromLTRB(r.pad, r.pad, r.pad, 0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return SafeArea(
+      child: Column(
         children: [
-          // Kiri: tidak ikut scroll kanan. Scroll sendiri hanya jika
-          // layar terlalu pendek supaya tidak overflow.
+          const AppHeader(),
           Expanded(
-            flex: 4,
-            child: SingleChildScrollView(
-              physics: const ClampingScrollPhysics(),
-              child: _buildWelcome(),
-            ),
-          ),
-          SizedBox(width: r.gap),
-          // Kanan: scrollable
-          Expanded(
-            flex: 6,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: EdgeInsets.only(bottom: r.bottom),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: _buildContent(context),
-              ),
-            ),
+            child: isLandscape
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 4,
+                        child: SingleChildScrollView(
+                          physics: const ClampingScrollPhysics(),
+                          padding: EdgeInsets.fromLTRB(
+                            r.pad,
+                            r.pad,
+                            0,
+                            r.bottom,
+                          ),
+                          child: _buildWelcome(),
+                        ),
+                      ),
+                      Expanded(flex: 6, child: scrollable),
+                    ],
+                  )
+                : scrollable,
           ),
         ],
       ),
