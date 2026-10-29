@@ -1,154 +1,138 @@
 import 'package:flutter/material.dart';
 
-import '../utils/app_theme.dart';
 import '../data/dummy_data.dart';
 import '../models/app_routes.dart';
 import '../models/user_model.dart';
+import '../utils/app_theme.dart';
+import '../utils/responsive.dart';
 import '../widgets/app_scaffold.dart';
 import '../widgets/profile_info_tile.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
-  String _initials(String name) {
-    final parts = name.trim().split(RegExp(r'\s+'));
-
-    if (name.trim().isEmpty) return '?';
-
-    final first = parts.first[0];
-    final second = parts.length > 1 ? parts[1][0] : '';
-
-    return (first + second).toUpperCase();
-  }
-
-  Future<void> _confirmLogout(BuildContext context) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Keluar dari akun?'),
-        content: const Text(
-          'Kamu perlu masuk lagi untuk menggunakan aplikasi.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Batal'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Keluar', style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed != true || !context.mounted) return;
-
-    currentUser = null;
-
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      AppRoutes.signIn,
-      (route) => false,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final r = context.r;
     final user = currentUser;
 
     return AppScaffold(
       body: SafeArea(
         child: user == null
-            ? const Center(child: Text('Belum ada pengguna yang masuk'))
-            : SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  children: [
-                    _buildHeader(user),
-                    const SizedBox(height: 24),
-                    _buildInfoCard(user),
-                    const SizedBox(height: 24),
-                    _buildLogoutButton(context),
-                    const SizedBox(height: 12),
-                    _buildBackButton(context),
-                  ],
+            ? Center(
+                child: Text(
+                  'Belum ada pengguna yang masuk',
+                  style: AppTextStyles.regular(
+                    r.font(4),
+                    color: AppColors.textGrey,
+                  ),
                 ),
-              ),
+              )
+            : _buildBody(context, r, user),
       ),
     );
   }
 
-  Widget _buildHeader(UserModel user) {
+  Widget _buildBody(BuildContext context, Responsive r, UserModel user) {
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(r.pad),
+      // Batasi lebar di layar lebar & tengahkan
+      child: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: r.maxWidth),
+          child: Column(
+            children: [
+              _buildHeader(r, user),
+              SizedBox(height: r.pad),
+              _buildInfoCard(r, user),
+              SizedBox(height: r.pad),
+              _buildActionButton(
+                r,
+                icon: Icons.logout,
+                label: 'Keluar',
+                color: AppColors.error,
+                onPressed: () => _confirmLogout(context),
+              ),
+              SizedBox(height: r.gap),
+              _buildActionButton(
+                r,
+                icon: Icons.arrow_back,
+                label: 'Kembali',
+                color: AppColors.primary,
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  BoxDecoration _cardDecoration(
+    Responsive r, {
+    Color? color,
+    Gradient? gradient,
+  }) {
+    return BoxDecoration(
+      color: color,
+      gradient: gradient,
+      borderRadius: BorderRadius.circular(r.radius),
+      boxShadow: [
+        BoxShadow(
+          color: AppColors.shadow,
+          blurRadius: r.gap,
+          offset: Offset(0, r.gapS),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHeader(Responsive r, UserModel user) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 24),
-      decoration: BoxDecoration(
-        gradient: AppColors.primaryGradient,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: const [
-          BoxShadow(
-            color: AppColors.shadow,
-            blurRadius: 15,
-            offset: Offset(0, 5),
-          ),
-        ],
-      ),
+      padding: EdgeInsets.symmetric(vertical: r.sp(7), horizontal: r.pad),
+      decoration: _cardDecoration(r, gradient: AppColors.primaryGradient),
       child: Column(
         children: [
-          Container(
-            width: 96,
-            height: 96,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              shape: BoxShape.circle,
-              border: Border.all(color: AppColors.golden, width: 3),
-            ),
-            child: Text(
-              _initials(user.name),
-              style: const TextStyle(
-                fontSize: 34,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF4E693E),
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
+          _buildAvatar(r, user),
+          SizedBox(height: r.gap),
           Text(
             user.name,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: AppColors.white,
-            ),
+            style: AppTextStyles.bold(r.font(5.6), color: AppColors.white),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: r.gapS),
           Text(
             'NIM ${user.nim}',
-            style: const TextStyle(fontSize: 14, color: AppColors.white),
+            style: AppTextStyles.regular(r.font(3.6), color: AppColors.white),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildInfoCard(UserModel user) {
+  Widget _buildAvatar(Responsive r, UserModel user) {
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      width: r.sp(25),
+      height: r.sp(25),
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: const [
-          BoxShadow(
-            color: AppColors.shadow,
-            blurRadius: 10,
-            offset: Offset(0, 4),
-          ),
-        ],
+        shape: BoxShape.circle,
+        border: Border.all(color: AppColors.golden, width: r.strokeThick),
       ),
+      child: Text(
+        _initials(user.name),
+        style: AppTextStyles.bold(r.font(8.7), color: AppColors.primary),
+      ),
+    );
+  }
+
+  Widget _buildInfoCard(Responsive r, UserModel user) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(horizontal: r.pad, vertical: r.gapS),
+      decoration: _cardDecoration(r, color: AppColors.white),
       child: Column(
         children: [
           ProfileInfoTile(
@@ -156,13 +140,13 @@ class ProfilePage extends StatelessWidget {
             label: 'NIM',
             value: user.nim,
           ),
-          const Divider(height: 1),
+          Divider(height: r.stroke),
           ProfileInfoTile(
             icon: Icons.person_outline,
             label: 'Nama Lengkap',
             value: user.name,
           ),
-          const Divider(height: 1),
+          Divider(height: r.stroke),
           ProfileInfoTile(
             icon: Icons.alternate_email,
             label: 'Username',
@@ -173,55 +157,79 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildLogoutButton(BuildContext context) {
+  Widget _buildActionButton(
+    Responsive r, {
+    required IconData icon,
+    required String label,
+    required Color color,
+    required VoidCallback onPressed,
+  }) {
     return SizedBox(
       width: double.infinity,
-      height: 52,
+      height: r.button,
       child: OutlinedButton.icon(
-        onPressed: () => _confirmLogout(context),
-        icon: const Icon(Icons.logout, color: Colors.red),
-        label: const Text(
-          'Keluar',
-          style: TextStyle(
-            color: Colors.red,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+        onPressed: onPressed,
+        icon: Icon(icon, color: color),
+        label: Text(
+          label,
+          style: AppTextStyles.bold(r.font(4.1), color: color),
         ),
         style: OutlinedButton.styleFrom(
-          backgroundColor: Colors.white,
-          side: const BorderSide(color: Colors.red, width: 2),
+          backgroundColor: AppColors.white,
+          side: BorderSide(color: color, width: r.strokeThick),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(r.radiusS),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildBackButton(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 52,
-      child: OutlinedButton.icon(
-        onPressed: () => Navigator.pop(context),
-        icon: const Icon(Icons.arrow_back, color: Color(0xFF4E693E)),
-        label: const Text(
-          'Kembali',
-          style: TextStyle(
-            color: Color(0xFF4E693E),
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+  String _initials(String name) {
+    final parts = name
+        .trim()
+        .split(RegExp(r'\s+'))
+        .where((part) => part.isNotEmpty)
+        .toList();
+    if (parts.isEmpty) return '?';
+
+    final second = parts.length > 1 ? parts[1][0] : '';
+    return (parts.first[0] + second).toUpperCase();
+  }
+
+  Future<void> _confirmLogout(BuildContext context) async {
+    final r = context.r;
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Keluar dari akun?'),
+        content: const Text(
+          'Kamu perlu masuk lagi untuk menggunakan aplikasi.',
         ),
-        style: OutlinedButton.styleFrom(
-          backgroundColor: Colors.white,
-          side: const BorderSide(color: Color(0xFF4E693E), width: 2),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Batal'),
           ),
-        ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(
+              'Keluar',
+              style: AppTextStyles.medium(r.font(3.6), color: AppColors.error),
+            ),
+          ),
+        ],
       ),
+    );
+
+    if (confirmed != true || !context.mounted) return;
+
+    currentUser = null;
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      AppRoutes.signIn,
+      (route) => false,
     );
   }
 }

@@ -17,7 +17,8 @@ class AppColors {
   static const Color textGreen = Color(0xFF2D4030);
   static const Color textGrey = Color(0xFF6B705C);
   static const Color textWhite = Color(0xFFFFFFFF);
-  static const Color shadow = Color(0x1A000000); // hitam 10%
+  static const Color shadow = Color(0x1A000000);
+  static const Color error = Color(0xFFFF0000); // hitam 10%
 
   static const LinearGradient primaryGradient = LinearGradient(
     colors: [Color(0xFF4E693E), Color(0xFF6F8F5A)],
