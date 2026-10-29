@@ -85,7 +85,7 @@ class _ReportPageState extends State<ReportPage> {
 
   Future<void> _pickImage(ImageSource source) async {
     final file = await _picker.pickImage(source: source, imageQuality: 85);
-    if (file == null) return; // pengguna membatalkan
+    if (file == null) return; //batal
 
     final extension = file.name.split('.').last.toLowerCase();
     final bytes = await file.readAsBytes();
@@ -140,9 +140,7 @@ class _ReportPageState extends State<ReportPage> {
       return;
     }
 
-    context.read<ReportProvider>().addReport(title);
-
-    DummyReportStore.addReport(
+    context.read<ReportProvider>().addReport(
       ReportData(
         title: title,
         category: _selectedCategory,

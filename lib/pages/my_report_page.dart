@@ -1,4 +1,10 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/report_provider.dart';
 
 import '../models/report_data.dart';
 
@@ -12,9 +18,7 @@ class MyReportPage extends StatefulWidget {
 class _MyReportPageState extends State<MyReportPage> {
   String selectedFilter = 'Semua';
 
-  List<ReportData> get reports => DummyReportStore.reports;
-
-  List<ReportData> get filteredReports {
+  List<ReportData> _filterReports(List<ReportData> reports) {
     if (selectedFilter == 'Semua') {
       return reports;
     }
@@ -23,13 +27,43 @@ class _MyReportPageState extends State<MyReportPage> {
   }
 
   void _ubahStatus(ReportData report) {
-    setState(() {
-      report.status = 'Selesai';
-    });
+    context.read<ReportProvider>().updateStatus(report, 'Selesai');
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Status laporan berhasil diubah menjadi Selesai'),
+      ),
+    );
+  }
+
+  Widget _buildReportImage(ReportData report) {
+    final path = report.imagePath;
+
+    if (path == null || path.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    // Image.file hanya digunakan untuk aplikasi non-Web.
+    if (kIsWeb) {
+      return const SizedBox.shrink();
+    }
+
+    final file = File(path);
+
+    if (!file.existsSync()) {
+      return const SizedBox.shrink();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.file(
+          file,
+          width: double.infinity,
+          height: 180,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -51,6 +85,7 @@ class _MyReportPageState extends State<MyReportPage> {
             Text('Kategori: ${report.category}'),
             const SizedBox(height: 6),
             Text(report.description),
+            _buildReportImage(report),
             const SizedBox(height: 8),
             Text(
               'Tanggal: ${report.createdAt.day}/'
@@ -86,6 +121,10 @@ class _MyReportPageState extends State<MyReportPage> {
 
   @override
   Widget build(BuildContext context) {
+    final reports = context.watch<ReportProvider>().reports;
+    final filteredReports = _filterReports(reports);
+    final displayedReports = filteredReports;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Laporan Saya')),
       body: Column(
@@ -93,7 +132,7 @@ class _MyReportPageState extends State<MyReportPage> {
           Padding(
             padding: const EdgeInsets.all(16),
             child: DropdownButtonFormField<String>(
-              initialValue: selectedFilter,
+              value: selectedFilter,
               decoration: const InputDecoration(
                 labelText: 'Filter Status',
                 border: OutlineInputBorder(),
@@ -114,13 +153,13 @@ class _MyReportPageState extends State<MyReportPage> {
             ),
           ),
           Expanded(
-            child: filteredReports.isEmpty
+            child: displayedReports.isEmpty
                 ? const Center(child: Text('Belum ada laporan.'))
                 : ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: filteredReports.length,
+                    itemCount: displayedReports.length,
                     itemBuilder: (context, index) {
-                      return _reportCard(filteredReports[index]);
+                      return _reportCard(displayedReports[index]);
                     },
                   ),
           ),

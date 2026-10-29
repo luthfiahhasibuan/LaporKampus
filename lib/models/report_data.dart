@@ -16,18 +16,18 @@ class ReportData {
   }) : createdAt = createdAt ?? DateTime.now();
 }
 
-class DummyReportStore {
-  static final List<ReportData> reports = [
-    ReportData(
-      title: 'Wi-Fi Kampus',
-      category: 'Fasilitas Kampus',
-      description: 'Koneksi Wi-Fi di beberapa ruang kelas sering terputus.',
-      status: 'Diproses',
-      createdAt: DateTime(2026, 10, 14),
-    ),
-  ];
+// class DummyReportStore {
+//   static final List<ReportData> reports = [
+//     ReportData(
+//       title: 'Wi-Fi Kampus',
+//       category: 'Fasilitas Kampus',
+//       description: 'Koneksi Wi-Fi di beberapa ruang kelas sering terputus.',
+//       status: 'Diproses',
+//       createdAt: DateTime(2026, 10, 14),
+//     ),
+//   ];
 
-  static void addReport(ReportData report) {
-    reports.insert(0, report);
-  }
-}
+//   static void addReport(ReportData report) {
+//     reports.insert(0, report);
+//   }
+// }

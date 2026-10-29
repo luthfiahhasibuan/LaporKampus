@@ -1,30 +1,27 @@
 import 'package:flutter/material.dart';
 
-import '../models/report.dart';
+import '../models/report_data.dart';
 
 class ReportProvider extends ChangeNotifier {
-  final List<Report> _reports = [];
+  final List<ReportData> _reports = [];
 
-  List<Report> get reports => List.unmodifiable(_reports);
+  List<ReportData> get reports => List.unmodifiable(_reports);
+
   int get total => _reports.length;
-  int get sent => _reports.where((r) => r.status != ReportStatus.draft).length;
-  int get responded =>
-      _reports.where((r) => r.status == ReportStatus.responded).length;
+  int get sent => _reports.length;
+  int get responded => _reports
+      .where(
+        (report) => report.status == 'Diproses' || report.status == 'Selesai',
+      )
+      .length;
 
-  void addReport(String title) {
-    _reports.add(
-      Report(
-        id: DateTime.now().microsecondsSinceEpoch.toString(),
-        title: title,
-      ),
-    );
-    notifyListeners(); // memberi tahu widget yang mendengarkan
+  void addReport(ReportData report) {
+    _reports.insert(0, report);
+    notifyListeners();
   }
 
-  void updateStatus(String id, ReportStatus status) {
-    final index = _reports.indexWhere((r) => r.id == id);
-    if (index == -1) return;
-    _reports[index] = _reports[index].copyWith(status: status);
+  void updateStatus(ReportData report, String status) {
+    report.status = status;
     notifyListeners();
   }
 }
