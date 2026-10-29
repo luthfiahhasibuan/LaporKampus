@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// import '../pages/home_page.dart';
+//import '../pages/home_page.dart';
 import '../pages/main_shell.dart';
 // import '../pages/my_report_page.dart';
 import '../pages/profile_page.dart';
@@ -25,7 +25,7 @@ class AppRoutes {
     signIn: (_) => const SignInPage(),
     signUp: (_) => const SignUpPage(),
     main: (_) => const MainShell(),
-    // home: (_) => const HomePage(),
+    //home: (_) => const HomePage(),
     report: (_) => const ReportPage(),
 
     // myReport: (_) => const MyReportPage(),

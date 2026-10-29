@@ -12,9 +12,13 @@ class ProfilePage extends StatelessWidget {
 
   String _initials(String name) {
     final parts = name.trim().split(RegExp(r'\s+'));
-    if (parts.isEmpty || parts.first.isEmpty) return '?';
+
+    if (name.trim().isEmpty) return '?';
+
+    final first = parts.first[0];
     final second = parts.length > 1 ? parts[1][0] : '';
-    return (parts.first[0] + second).toUpperCase();
+
+    return (first + second).toUpperCase();
   }
 
   Future<void> _confirmLogout(BuildContext context) async {
@@ -41,6 +45,7 @@ class ProfilePage extends StatelessWidget {
     if (confirmed != true || !context.mounted) return;
 
     currentUser = null;
+
     Navigator.pushNamedAndRemoveUntil(
       context,
       AppRoutes.signIn,
@@ -65,6 +70,8 @@ class ProfilePage extends StatelessWidget {
                     _buildInfoCard(user),
                     const SizedBox(height: 24),
                     _buildLogoutButton(context),
+                    const SizedBox(height: 12),
+                    _buildBackButton(context),
                   ],
                 ),
               ),
@@ -184,6 +191,32 @@ class ProfilePage extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           backgroundColor: Colors.white,
           side: const BorderSide(color: Colors.red, width: 2),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBackButton(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 52,
+      child: OutlinedButton.icon(
+        onPressed: () => Navigator.pop(context),
+        icon: const Icon(Icons.arrow_back, color: Color(0xFF4E693E)),
+        label: const Text(
+          'Kembali',
+          style: TextStyle(
+            color: Color(0xFF4E693E),
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        style: OutlinedButton.styleFrom(
+          backgroundColor: Colors.white,
+          side: const BorderSide(color: Color(0xFF4E693E), width: 2),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
