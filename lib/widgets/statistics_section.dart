@@ -17,12 +17,7 @@ class StatisticsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = <_StatItem>[
-      _StatItem(
-        icon: Icons.folder_rounded,
-        number: '$total',
-        label: 'Total',
-        isHighlighted: true,
-      ),
+      _StatItem(icon: Icons.folder_rounded, number: '$total', label: 'Total'),
       _StatItem(icon: Icons.send_rounded, number: '$sent', label: 'Terkirim'),
       _StatItem(
         icon: Icons.check_circle_rounded,
@@ -30,6 +25,7 @@ class StatisticsSection extends StatelessWidget {
         label: 'Ditanggapi',
       ),
     ];
+
     return Row(
       children: [
         for (int i = 0; i < items.length; i++) ...[
@@ -46,13 +42,10 @@ class _StatItem {
   final String number;
   final String label;
 
-  final bool isHighlighted;
-
   const _StatItem({
     required this.icon,
     required this.number,
     required this.label,
-    this.isHighlighted = false,
   });
 }
 
@@ -63,52 +56,30 @@ class _StatisticCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final highlighted = item.isHighlighted;
-
-    final numberColor = highlighted ? Colors.white : AppColors.primaryDark;
-    final labelColor = highlighted
-        ? Colors.white.withValues(alpha: 0.85)
-        : Colors.black54;
-    final iconColor = highlighted ? Colors.white : AppColors.primary;
-    final iconBackground = highlighted
-        ? Colors.white.withValues(alpha: 0.2)
-        : AppColors.primary.withValues(alpha: 0.1);
-
     return Container(
       height: 128,
       decoration: BoxDecoration(
-        gradient: highlighted
-            ? const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [AppColors.primaryLight, AppColors.primary],
-              )
-            : null,
-
-        color: highlighted ? null : Colors.white,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: highlighted ? null : Border.all(color: AppColors.primary),
+        border: Border.all(color: AppColors.primary),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(
-              alpha: highlighted ? 0.35 : 0.12,
-            ),
+            color: AppColors.primary.withValues(alpha: 0.12),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
         ],
       ),
-
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: iconBackground,
+              color: AppColors.primary.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(item.icon, color: iconColor, size: 20),
+            child: Icon(item.icon, color: AppColors.primary, size: 20),
           ),
           const SizedBox(height: 8),
           Text(
@@ -116,17 +87,17 @@ class _StatisticCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w800,
-              color: numberColor,
+              color: AppColors.primaryDark,
               height: 1.1,
             ),
           ),
           const SizedBox(height: 2),
           Text(
             item.label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: labelColor,
+              color: Colors.black54,
             ),
           ),
         ],

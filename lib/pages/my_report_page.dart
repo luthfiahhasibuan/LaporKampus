@@ -93,7 +93,7 @@ class _MyReportPageState extends State<MyReportPage> {
           Padding(
             padding: const EdgeInsets.all(16),
             child: DropdownButtonFormField<String>(
-              value: selectedFilter,
+              initialValue: selectedFilter,
               decoration: const InputDecoration(
                 labelText: 'Filter Status',
                 border: OutlineInputBorder(),

@@ -17,7 +17,6 @@ class ReportData {
 }
 
 class DummyReportStore {
-  // Tempat menyimpan semua laporan
   static final List<ReportData> reports = [
     ReportData(
       title: 'Wi-Fi Kampus',
@@ -28,7 +27,6 @@ class DummyReportStore {
     ),
   ];
 
-  // Menambahkan laporan baru
   static void addReport(ReportData report) {
     reports.insert(0, report);
   }
