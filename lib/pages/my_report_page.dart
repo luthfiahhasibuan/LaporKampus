@@ -1,117 +1,98 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/report_provider.dart';
-
 import '../models/report_data.dart';
+import '../providers/report_provider.dart';
+import '../utils/app_theme.dart';
+import '../utils/responsive.dart';
+import '../widgets/app_header.dart';
+import '../widgets/app_scaffold.dart';
+import '../widgets/report_card.dart';
+import '../widgets/report_filter_tabs.dart';
+import 'report_detail_page.dart';
 
-class MyReportPage extends StatefulWidget {
+class MyReportPage extends StatelessWidget {
   const MyReportPage({super.key});
 
+  void _openDetail(BuildContext context, ReportData report) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => ReportDetailPage(report: report)),
+    );
+  }
+
   @override
-  State<MyReportPage> createState() => _MyReportPageState();
-}
+  Widget build(BuildContext context) {
+    final r = context.r;
+    final provider = context.watch<ReportProvider>();
+    final reports = provider.filteredReports;
 
-class _MyReportPageState extends State<MyReportPage> {
-  String selectedFilter = 'Semua';
-
-  List<ReportData> _filterReports(List<ReportData> reports) {
-    if (selectedFilter == 'Semua') {
-      return reports;
-    }
-
-    return reports.where((report) => report.status == selectedFilter).toList();
-  }
-
-  void _ubahStatus(ReportData report) {
-    context.read<ReportProvider>().updateStatus(report, 'Selesai');
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Status laporan berhasil diubah menjadi Selesai'),
-      ),
-    );
-  }
-
-  Widget _buildReportImage(ReportData report) {
-    final path = report.imagePath;
-
-    if (path == null || path.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    // Image.file hanya digunakan untuk aplikasi non-Web.
-    if (kIsWeb) {
-      return const SizedBox.shrink();
-    }
-
-    final file = File(path);
-
-    if (!file.existsSync()) {
-      return const SizedBox.shrink();
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 12),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Image.file(
-          file,
-          width: double.infinity,
-          height: 180,
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
-  }
-
-  Widget _reportCard(ReportData report) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
+    return AppScaffold(
+      body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              report.title,
-              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(height: 8),
-            Text('Kategori: ${report.category}'),
-            const SizedBox(height: 6),
-            Text(report.description),
-            _buildReportImage(report),
-            const SizedBox(height: 8),
-            Text(
-              'Tanggal: ${report.createdAt.day}/'
-              '${report.createdAt.month}/'
-              '${report.createdAt.year}',
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                const Text('Status: '),
-                Chip(
-                  label: Text(report.status),
-                  backgroundColor: report.status == 'Selesai'
-                      ? Colors.green.shade100
-                      : report.status == 'Diproses'
-                      ? Colors.orange.shade100
-                      : Colors.blue.shade100,
-                ),
-                const Spacer(),
-                if (report.status != 'Selesai')
-                  IconButton(
-                    tooltip: 'Ubah menjadi Selesai',
-                    icon: const Icon(Icons.check_circle, color: Colors.green),
-                    onPressed: () => _ubahStatus(report),
+            const AppHeader(),
+            Expanded(
+              // Batasi lebar & tengahkan di layar lebar
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: r.maxWidth),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(r.pad, r.pad, r.pad, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Laporan Saya',
+                              style: AppTextStyles.bold(r.font(5.4)),
+                            ),
+                            SizedBox(height: r.gapS / 2),
+                            Text(
+                              'Pantau semua laporan yang telah Anda kirim.',
+                              style: AppTextStyles.regular(
+                                r.font(3.8),
+                                color: AppColors.textGrey,
+                              ),
+                            ),
+                            SizedBox(height: r.gap),
+                            ReportFilterTabs(
+                              selected: provider.filter,
+                              onChanged: provider.setFilter,
+                              countOf: provider.countOf,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: r.gap),
+                      Expanded(
+                        child: reports.isEmpty
+                            ? _buildEmpty(r, provider.filter)
+                            : ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                padding: EdgeInsets.fromLTRB(
+                                  r.pad,
+                                  r.gapS / 2,
+                                  r.pad,
+                                  r.bottom,
+                                ),
+                                itemCount: reports.length,
+                                separatorBuilder: (_, __) =>
+                                    SizedBox(height: r.gap),
+                                itemBuilder: (context, index) {
+                                  final report = reports[index];
+                                  return ReportCard(
+                                    report: report,
+                                    onTap: () => _openDetail(context, report),
+                                  );
+                                },
+                              ),
+                      ),
+                    ],
                   ),
-              ],
+                ),
+              ),
             ),
           ],
         ),
@@ -119,51 +100,29 @@ class _MyReportPageState extends State<MyReportPage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final reports = context.watch<ReportProvider>().reports;
-    final filteredReports = _filterReports(reports);
-    final displayedReports = filteredReports;
-
-    return Scaffold(
-      appBar: AppBar(title: const Text('Laporan Saya')),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: DropdownButtonFormField<String>(
-              value: selectedFilter,
-              decoration: const InputDecoration(
-                labelText: 'Filter Status',
-                border: OutlineInputBorder(),
-              ),
-              items: const [
-                DropdownMenuItem(value: 'Semua', child: Text('Semua Laporan')),
-                DropdownMenuItem(value: 'Menunggu', child: Text('Menunggu')),
-                DropdownMenuItem(value: 'Diproses', child: Text('Diproses')),
-                DropdownMenuItem(value: 'Selesai', child: Text('Selesai')),
-              ],
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    selectedFilter = value;
-                  });
-                }
-              },
+  Widget _buildEmpty(Responsive r, ReportFilter filter) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(r.pad),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.inbox_outlined,
+              size: r.icon * 2,
+              color: AppColors.muted,
             ),
-          ),
-          Expanded(
-            child: displayedReports.isEmpty
-                ? const Center(child: Text('Belum ada laporan.'))
-                : ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: displayedReports.length,
-                    itemBuilder: (context, index) {
-                      return _reportCard(displayedReports[index]);
-                    },
-                  ),
-          ),
-        ],
+            SizedBox(height: r.gap),
+            Text(
+              filter.emptyMessage,
+              textAlign: TextAlign.center,
+              style: AppTextStyles.regular(
+                r.font(3.8),
+                color: AppColors.textGrey,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

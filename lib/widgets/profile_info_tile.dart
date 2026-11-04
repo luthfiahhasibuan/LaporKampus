@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../utils/app_theme.dart';
+import '../utils/responsive.dart';
+
 class ProfileInfoTile extends StatelessWidget {
   const ProfileInfoTile({
     super.key,
@@ -12,45 +15,43 @@ class ProfileInfoTile extends StatelessWidget {
   final String label;
   final String value;
 
-  static const Color _primary = Color(0xFF4E693E);
-
   @override
   Widget build(BuildContext context) {
+    final r = context.r;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: EdgeInsets.symmetric(vertical: r.gap),
       child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: _primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(icon, color: _primary, size: 22),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  value,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          _buildIconBadge(r),
+          SizedBox(width: r.gap),
+          Expanded(child: _buildTexts(r)),
         ],
       ),
+    );
+  }
+
+  Widget _buildIconBadge(Responsive r) {
+    return Container(
+      padding: EdgeInsets.all(r.gapS),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(r.radiusS),
+      ),
+      child: Icon(icon, color: AppColors.primary, size: r.icon),
+    );
+  }
+
+  Widget _buildTexts(Responsive r) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: AppTextStyles.regular(r.font(3.1), color: AppColors.textGrey),
+        ),
+        Text(value, style: AppTextStyles.semibold(r.font(4.1))),
+      ],
     );
   }
 }

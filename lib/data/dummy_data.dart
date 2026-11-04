@@ -1,6 +1,6 @@
 import '../models/user_model.dart';
 
-// "Database" sementara (hilang saat aplikasi di-restart)
+// Database sementara 
 final List<UserModel> dummyUsers = [
   UserModel(
     nim: '231401125',
@@ -9,5 +9,5 @@ final List<UserModel> dummyUsers = [
     password: 'luthfi1234',
   ),
 ];
-// User yang sedang login. Diisi saat Sign In berhasil, dikosongkan saat logout
+//kosongkan saat logout
 UserModel? currentUser;

@@ -5,12 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/app_header.dart';
-import '../widgets/app_scaffold.dart';
 import '../models/report_data.dart';
 import '../providers/report_provider.dart';
-import '../utils/responsive.dart';
 import '../utils/app_theme.dart';
+import '../utils/report_category.dart';
+import '../utils/responsive.dart';
+import '../widgets/app_card.dart';
+import '../widgets/app_header.dart';
+import '../widgets/app_scaffold.dart';
+import '../widgets/gradient_card_header.dart';
+import '../widgets/section_label.dart';
 
 class ReportPage extends StatefulWidget {
   const ReportPage({super.key});
@@ -23,14 +27,6 @@ class _ReportPageState extends State<ReportPage> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _picker = ImagePicker();
-
-  static const Map<String, IconData> _categories = {
-    'Fasilitas': Icons.apartment_outlined,
-    'Akademik': Icons.school_outlined,
-    'Kebersihan': Icons.cleaning_services_outlined,
-    'Keamanan': Icons.shield_outlined,
-    'Lainnya': Icons.more_horiz,
-  };
 
   static const List<String> _allowedExtensions = ['jpg', 'jpeg', 'png'];
   static const int _maxImageBytes = 5 * 1024 * 1024; // 5 MB
@@ -181,18 +177,8 @@ class _ReportPageState extends State<ReportPage> {
     );
   }
 
-  Widget _label(Responsive r, IconData icon, String text) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: r.gapS),
-      child: Row(
-        children: [
-          Icon(icon, size: r.gap, color: AppColors.primary),
-          SizedBox(width: r.gapS),
-          Text(text, style: AppTextStyles.bold(r.font(3.8))),
-        ],
-      ),
-    );
-  }
+  Widget _label(Responsive r, IconData icon, String text) =>
+      SectionLabel(icon: icon, text: text);
 
   @override
   Widget build(BuildContext context) {
@@ -211,23 +197,10 @@ class _ReportPageState extends State<ReportPage> {
                 child: Center(
                   child: ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: r.maxWidth),
-                    child: Container(
-                      clipBehavior:
-                          Clip.antiAlias, // header hijau ikut melengkung
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(r.radius),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.shadow,
-                            blurRadius: r.gap,
-                            offset: Offset(0, r.gapS),
-                          ),
-                        ],
-                      ),
+                    child: AppCard(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [_buildCardHeader(r), _buildForm(r)],
+                        children: [_buildCardHeader(), _buildForm(r)],
                       ),
                     ),
                   ),
@@ -240,53 +213,11 @@ class _ReportPageState extends State<ReportPage> {
     );
   }
 
-  Widget _buildCardHeader(Responsive r) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: r.pad, vertical: r.gap),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.primaryLight, AppColors.primary],
-        ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(r.gapS),
-            decoration: BoxDecoration(
-              color: AppColors.white.withValues(alpha: 0.2),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.edit_square,
-              color: AppColors.white,
-              size: r.icon,
-            ),
-          ),
-          SizedBox(width: r.gap),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Tulis Laporan Baru',
-                  style: AppTextStyles.bold(
-                    r.font(4.6),
-                    color: AppColors.white,
-                  ),
-                ),
-                Text(
-                  'Sampaikan masalah dengan jelas agar cepat ditangani.',
-                  style: AppTextStyles.regular(r.font(4))
-                      .copyWith(color: AppColors.white.withValues(alpha: 0.85)),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+  Widget _buildCardHeader() {
+    return const GradientCardHeader(
+      icon: Icons.edit_square,
+      title: 'Tulis Laporan Baru',
+      subtitle: 'Sampaikan masalah dengan jelas agar cepat ditangani.',
     );
   }
 
@@ -350,7 +281,7 @@ class _ReportPageState extends State<ReportPage> {
       spacing: r.gapS,
       runSpacing: r.gapS,
       children: [
-        for (final entry in _categories.entries)
+        for (final entry in reportCategories.entries)
           _buildCategoryChip(r, entry.key, entry.value),
       ],
     );
