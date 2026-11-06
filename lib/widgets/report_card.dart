@@ -8,12 +8,18 @@ import '../utils/responsive.dart';
 import 'app_card.dart';
 import 'report_status_chip.dart';
 
-/// Kartu ringkas satu laporan di daftar My Report.
 class ReportCard extends StatelessWidget {
-  const ReportCard({super.key, required this.report, required this.onTap});
+  const ReportCard({
+    super.key,
+    required this.report,
+    required this.onTap,
+    this.showReporter = false,
+  });
 
   final ReportData report;
   final VoidCallback onTap;
+
+  final bool showReporter;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +68,19 @@ class ReportCard extends StatelessWidget {
                           color: AppColors.textGrey,
                         ),
                       ),
+
+                      if (showReporter) ...[
+                        SizedBox(height: r.gapS / 2),
+                        Text(
+                          'Pelapor: ${report.reporter.name}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.medium(
+                            r.font(3.4),
+                            color: AppColors.primaryDark,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),

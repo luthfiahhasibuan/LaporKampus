@@ -12,7 +12,9 @@ import '../widgets/report_filter_tabs.dart';
 import 'report_detail_page.dart';
 
 class MyReportPage extends StatelessWidget {
-  const MyReportPage({super.key});
+  const MyReportPage({super.key, this.isAdmin = false});
+
+  final bool isAdmin;
 
   void _openDetail(BuildContext context, ReportData report) {
     Navigator.of(context).push(
@@ -45,12 +47,14 @@ class MyReportPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Laporan Saya',
+                              isAdmin ? 'Kelola Laporan' : 'Laporan Saya',
                               style: AppTextStyles.bold(r.font(5.4)),
                             ),
                             SizedBox(height: r.gapS / 2),
                             Text(
-                              'Pantau semua laporan yang telah Anda kirim.',
+                              isAdmin
+                                  ? 'Kelola semua laporan yang telah dikirim mahasiswa.'
+                                  : 'Pantau semua laporan yang telah Anda kirim.',
                               style: AppTextStyles.regular(
                                 r.font(3.8),
                                 color: AppColors.textGrey,
@@ -84,6 +88,7 @@ class MyReportPage extends StatelessWidget {
                                   final report = reports[index];
                                   return ReportCard(
                                     report: report,
+                                    showReporter: isAdmin,
                                     onTap: () => _openDetail(context, report),
                                   );
                                 },

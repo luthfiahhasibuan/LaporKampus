@@ -13,15 +13,41 @@ import '../widgets/report_image.dart';
 import '../widgets/report_status_chip.dart';
 import '../widgets/section_label.dart';
 
+import 'package:provider/provider.dart';
+
+import '../providers/report_provider.dart';
+import '../widgets/admin_response_panel.dart';
+
 class ReportDetailPage extends StatelessWidget {
-  const ReportDetailPage({super.key, required this.report});
+  const ReportDetailPage({
+    super.key,
+    required this.report,
+    this.isAdmin = false,
+  });
 
   final ReportData report;
+  final bool isAdmin;
+
+  Widget _buildReporter(Responsive r) {
+    final reporter = report.reporter;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionLabel(icon: Icons.person_outline, text: 'Pelapor'),
+        Text(reporter.name, style: AppTextStyles.semibold(r.font(3.8))),
+        Text(
+          'NIM ${reporter.nim}',
+          style: AppTextStyles.regular(r.font(3.6), color: AppColors.textGrey),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final r = context.r;
-
+    context.watch<ReportProvider>();
     return AppScaffold(
       body: SafeArea(
         child: Column(
@@ -106,6 +132,8 @@ class ReportDetailPage extends StatelessWidget {
 
           SizedBox(height: r.pad),
 
+          if (isAdmin) ...[SizedBox(height: r.pad), _buildReporter(r)],
+
           // Isi laporan
           const SectionLabel(icon: Icons.notes_outlined, text: 'Isi Laporan'),
           Text(
@@ -129,11 +157,15 @@ class ReportDetailPage extends StatelessWidget {
           SizedBox(height: r.pad),
 
           // Tanggapan petugas
-          const SectionLabel(
-            icon: Icons.question_answer_outlined,
-            text: 'Tanggapan',
-          ),
-          _buildResponse(r),
+          if (isAdmin)
+            AdminResponsePanel(report: report)
+          else ...[
+            const SectionLabel(
+              icon: Icons.question_answer_outlined,
+              text: 'Tanggapan',
+            ),
+            _buildResponse(r),
+          ],
 
           SizedBox(height: r.pad),
 
@@ -160,8 +192,13 @@ class ReportDetailPage extends StatelessWidget {
   }
 
   Widget _buildResponse(Responsive r) {
-    final response = report.response;
-    final responded = report.isResponded && response != null;
+    final responded = report.isResponded;
+    final message =
+        report.response ??
+        (responded
+            ? 'Laporan Anda telah ditandai ditanggapi oleh petugas.'
+            : 'Laporan Anda sudah terkirim dan sedang menunggu tanggapan '
+                  'dari petugas.');
 
     return Container(
       width: double.infinity,
@@ -179,10 +216,7 @@ class ReportDetailPage extends StatelessWidget {
         ),
       ),
       child: Text(
-        responded
-            ? response
-            : 'Laporan Anda sudah terkirim dan sedang menunggu tanggapan '
-                  'dari petugas.',
+        message,
         style: AppTextStyles.regular(
           r.font(3.8),
           color: responded ? AppColors.textDark : AppColors.textGrey,
