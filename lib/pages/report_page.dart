@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../data/dummy_data.dart';
 import '../models/report_data.dart';
 import '../providers/report_provider.dart';
 import '../utils/app_theme.dart';
@@ -142,6 +143,7 @@ class _ReportPageState extends State<ReportPage> {
         category: _selectedCategory,
         description: description,
         imagePath: _image?.path,
+        reporter: currentUser!,
       ),
     );
 

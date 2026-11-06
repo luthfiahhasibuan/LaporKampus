@@ -1,3 +1,5 @@
+import 'user_model.dart';
+
 class ReportStatus {
   ReportStatus._();
 
@@ -10,17 +12,19 @@ class ReportData {
   final String category;
   final String description;
   final String? imagePath;
-  String status;
+  final UserModel reporter;
   final DateTime createdAt;
 
-  /// Tanggapan dari petugas (hanya ada jika status = Ditanggapi).
-  final String? response;
-  final DateTime? respondedAt;
+  String status;
+
+  String? response;
+  DateTime? respondedAt;
 
   ReportData({
     required this.title,
     required this.category,
     required this.description,
+    required this.reporter,
     this.imagePath,
     this.status = ReportStatus.sent,
     this.response,
