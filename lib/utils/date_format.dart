@@ -1,23 +1,18 @@
 const List<String> _months = [
-  'Januari',
-  'Februari',
-  'Maret',
-  'April',
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
   'Mei',
-  'Juni',
-  'Juli',
-  'Agustus',
-  'September',
-  'Oktober',
-  'November',
-  'Desember',
+  'Jun',
+  'Jul',
+  'Agu',
+  'Sep',
+  'Okt',
+  'Nov',
+  'Des',
 ];
 
-String _two(int n) => n.toString().padLeft(2, '0');
-
-String formatDate(DateTime d) =>
-    '${d.day} ${_months[d.month - 1].substring(0, 3)} ${d.year}';
-
-String formatDateTime(DateTime d) =>
-    '${_two(d.day)} ${_months[d.month - 1]} ${d.year}, '
-    '${_two(d.hour)}:${_two(d.minute)}';
+/// Contoh: 14 Okt 2026
+String formatDate(DateTime date) =>
+    '${date.day} ${_months[date.month - 1]} ${date.year}';

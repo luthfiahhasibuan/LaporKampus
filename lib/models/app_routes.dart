@@ -7,6 +7,7 @@ import '../pages/profile_page.dart';
 import '../pages/report_page.dart';
 import '../pages/signin_page.dart';
 import '../pages/signup_page.dart';
+import '../pages/admin_shell.dart';
 
 class AppRoutes {
   AppRoutes._();
@@ -20,6 +21,7 @@ class AppRoutes {
   static const String profile = '/profile';
 
   static const String initial = signIn; //halaman pertama
+  static const String adminMain = '/admin';
 
   static final Map<String, WidgetBuilder> routes = {
     signIn: (_) => const SignInPage(),
@@ -30,5 +32,6 @@ class AppRoutes {
 
     // myReport: (_) => const MyReportPage(),
     profile: (_) => const ProfilePage(),
+    adminMain: (_) => const AdminShell(),
   };
 }

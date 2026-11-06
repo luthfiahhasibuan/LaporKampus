@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils/app_theme.dart';
+import '../utils/responsive.dart';
 
 class StatisticsSection extends StatelessWidget {
   final int total;
@@ -16,6 +17,7 @@ class StatisticsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final r = context.r;
     final items = <_StatItem>[
       _StatItem(icon: Icons.folder_rounded, number: '$total', label: 'Total'),
       _StatItem(icon: Icons.send_rounded, number: '$sent', label: 'Terkirim'),
@@ -29,7 +31,7 @@ class StatisticsSection extends StatelessWidget {
     return Row(
       children: [
         for (int i = 0; i < items.length; i++) ...[
-          if (i > 0) const SizedBox(width: 12),
+          if (i > 0) SizedBox(width: r.gap),
           Expanded(child: _StatisticCard(item: items[i])),
         ],
       ],
@@ -56,17 +58,19 @@ class _StatisticCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final r = context.r;
+
     return Container(
-      height: 128,
+      height: r.sp(33),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.primary),
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(r.radius),
+        border: Border.all(color: AppColors.primary, width: r.stroke),
         boxShadow: [
           BoxShadow(
             color: AppColors.primary.withValues(alpha: 0.12),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
+            blurRadius: r.gap,
+            offset: Offset(0, r.gapS / 2),
           ),
         ],
       ),
@@ -74,31 +78,25 @@ class _StatisticCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(r.gapS),
             decoration: BoxDecoration(
               color: AppColors.primary.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(item.icon, color: AppColors.primary, size: 20),
+            child: Icon(item.icon, color: AppColors.primary, size: r.icon),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: r.gapS),
           Text(
             item.number,
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w800,
+            style: AppTextStyles.bold(
+              r.font(5.6),
               color: AppColors.primaryDark,
               height: 1.1,
             ),
           ),
-          const SizedBox(height: 2),
           Text(
             item.label,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: Colors.black54,
-            ),
+            style: AppTextStyles.medium(r.font(3.1), color: AppColors.textGrey),
           ),
         ],
       ),

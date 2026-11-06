@@ -28,6 +28,18 @@ class ReportDetailPage extends StatelessWidget {
   final ReportData report;
   final bool isAdmin;
 
+  static Future<void> open(
+    BuildContext context,
+    ReportData report, {
+    bool isAdmin = false,
+  }) {
+    return Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => ReportDetailPage(report: report, isAdmin: isAdmin),
+      ),
+    );
+  }
+
   Widget _buildReporter(Responsive r) {
     final reporter = report.reporter;
 

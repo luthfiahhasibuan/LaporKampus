@@ -16,4 +16,7 @@ class UserModel {
   });
 
   bool get isAdmin => role == UserRole.admin;
+
+  /// Label nomor identitas: admin tidak punya NIM.
+  String get idLabel => isAdmin ? 'ID Admin' : 'NIM';
 }

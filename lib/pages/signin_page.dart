@@ -49,15 +49,12 @@ class _SignInPageState extends State<SignInPage> {
       return;
     }
 
-    if (index == -1) {
-      // ...snackbar error...
-      return;
-    }
-
     currentUser = dummyUsers[index];
 
-    // Login berhasil -> masuk ke halaman utama
-    Navigator.pushNamedAndRemoveUntil(context, AppRoutes.main, (r) => false);
+    final destination = currentUser!.isAdmin
+        ? AppRoutes.adminMain
+        : AppRoutes.main;
+    Navigator.pushNamedAndRemoveUntil(context, destination, (route) => false);
   }
 
   @override

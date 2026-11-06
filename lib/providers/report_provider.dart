@@ -44,6 +44,9 @@ class ReportProvider extends ChangeNotifier {
   List<ReportData> get filteredReports =>
       reports.where(_filter.matches).toList();
 
+  List<ReportData> get pendingReports =>
+      reports.where(ReportFilter.sent.matches).toList();
+
   int countOf(ReportFilter filter) => reports.where(filter.matches).length;
 
   void setFilter(ReportFilter filter) {

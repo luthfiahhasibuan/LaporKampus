@@ -16,11 +16,11 @@ class MyReportPage extends StatelessWidget {
 
   final bool isAdmin;
 
-  void _openDetail(BuildContext context, ReportData report) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => ReportDetailPage(report: report)),
-    );
-  }
+  // void _openDetail(BuildContext context, ReportData report) {
+  //   Navigator.of(context).push(
+  //     MaterialPageRoute<void>(builder: (_) => ReportDetailPage(report: report)),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +89,11 @@ class MyReportPage extends StatelessWidget {
                                   return ReportCard(
                                     report: report,
                                     showReporter: isAdmin,
-                                    onTap: () => _openDetail(context, report),
+                                    onTap: () => ReportDetailPage.open(
+                                      context,
+                                      report,
+                                      isAdmin: isAdmin,
+                                    ),
                                   );
                                 },
                               ),
