@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/dummy_data.dart';
 import '../models/report_data.dart';
 
 enum ReportFilter {
@@ -23,20 +24,27 @@ class ReportProvider extends ChangeNotifier {
   final List<ReportData> _reports = [];
   ReportFilter _filter = ReportFilter.all;
 
-  List<ReportData> get reports => List.unmodifiable(_reports);
+  List<ReportData> get reports {
+    final user = currentUser;
+    if (user == null) return const <ReportData>[];
+    if (user.isAdmin) return List.unmodifiable(_reports);
+    return List.unmodifiable(
+      _reports.where((report) => report.reporter.nim == user.nim),
+    );
+  }
 
-  // Statistik (dipakai halaman lain, misalnya beranda)
-  int get total => _reports.length;
-  int get sent => _reports.length;
+  // Statistik (dipakai beranda dan dashboard admin)
+  int get total => reports.length;
+  int get sent => reports.length;
   int get responded => countOf(ReportFilter.responded);
 
-  // Filter halaman My Report
+  // Filter halaman daftar laporan
   ReportFilter get filter => _filter;
 
   List<ReportData> get filteredReports =>
-      _reports.where(_filter.matches).toList();
+      reports.where(_filter.matches).toList();
 
-  int countOf(ReportFilter filter) => _reports.where(filter.matches).length;
+  int countOf(ReportFilter filter) => reports.where(filter.matches).length;
 
   void setFilter(ReportFilter filter) {
     if (filter == _filter) return;
@@ -51,6 +59,17 @@ class ReportProvider extends ChangeNotifier {
 
   void updateStatus(ReportData report, String status) {
     report.status = status;
+    if (status == ReportStatus.sent) {
+      report.response = null;
+      report.respondedAt = null;
+    }
+    notifyListeners();
+  }
+
+  void respond(ReportData report, String response) {
+    report.response = response.trim();
+    report.respondedAt = DateTime.now();
+    report.status = ReportStatus.responded;
     notifyListeners();
   }
 }

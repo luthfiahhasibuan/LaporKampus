@@ -16,6 +16,7 @@ import '../widgets/app_header.dart';
 import '../widgets/app_scaffold.dart';
 import '../widgets/gradient_card_header.dart';
 import '../widgets/section_label.dart';
+import '../utils/input_decoration.dart';
 
 class ReportPage extends StatefulWidget {
   const ReportPage({super.key});
@@ -153,32 +154,6 @@ class _ReportPageState extends State<ReportPage> {
     Navigator.pop(context);
   }
 
-  // Dekorasi yang sama untuk semua input di form ini
-  InputDecoration _inputDecoration(
-    Responsive r, {
-    String? hint,
-    IconData? icon,
-  }) {
-    OutlineInputBorder border(Color color, double width) {
-      return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(r.radiusS),
-        borderSide: BorderSide(color: color, width: width),
-      );
-    }
-
-    return InputDecoration(
-      hintText: hint,
-      hintStyle: AppTextStyles.regular(r.font(3.6), color: AppColors.textGrey),
-      prefixIcon: icon == null ? null : Icon(icon),
-      prefixIconColor: AppColors.primary,
-      filled: true,
-      fillColor: AppColors.primary.withValues(alpha: 0.04),
-      contentPadding: EdgeInsets.all(r.gap),
-      enabledBorder: border(AppColors.border, r.stroke),
-      focusedBorder: border(AppColors.primary, r.strokeThick),
-    );
-  }
-
   Widget _label(Responsive r, IconData icon, String text) =>
       SectionLabel(icon: icon, text: text);
 
@@ -235,7 +210,7 @@ class _ReportPageState extends State<ReportPage> {
             controller: _titleController,
             style: AppTextStyles.regular(r.font(4)),
             keyboardType: TextInputType.text,
-            decoration: _inputDecoration(
+            decoration: appInputDecoration(
               r,
               hint: 'Isi Lokasi kerusakan',
               icon: Icons.location_on_outlined,
@@ -258,7 +233,7 @@ class _ReportPageState extends State<ReportPage> {
             keyboardType: TextInputType.multiline,
             minLines: r.lines,
             maxLines: r.lines,
-            decoration: _inputDecoration(
+            decoration: appInputDecoration(
               r,
               hint: 'Jelaskan laporan Anda secara detail...',
             ),
