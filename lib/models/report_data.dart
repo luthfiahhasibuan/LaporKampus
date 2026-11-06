@@ -8,6 +8,7 @@ class ReportStatus {
 }
 
 class ReportData {
+  final String faculty;
   final String title;
   final String category;
   final String description;
@@ -21,6 +22,7 @@ class ReportData {
   DateTime? respondedAt;
 
   ReportData({
+    required this.faculty,
     required this.title,
     required this.category,
     required this.description,

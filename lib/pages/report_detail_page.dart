@@ -47,11 +47,13 @@ class ReportDetailPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionLabel(icon: Icons.person_outline, text: 'Pelapor'),
-        Text(reporter.name, style: AppTextStyles.semibold(r.font(3.8))),
+        Text(reporter.name, style: AppTextStyles.regular(r.font(3.8))),
+        SizedBox(height: r.font(1.8)),
         Text(
           'NIM ${reporter.nim}',
           style: AppTextStyles.regular(r.font(3.6), color: AppColors.textGrey),
         ),
+        SizedBox(height: r.pad),
       ],
     );
   }
@@ -145,6 +147,13 @@ class ReportDetailPage extends StatelessWidget {
           SizedBox(height: r.pad),
 
           if (isAdmin) ...[SizedBox(height: r.pad), _buildReporter(r)],
+
+          const SectionLabel(
+            icon: Icons.school_outlined,
+            text: 'Fakultas / Program Studi',
+          ),
+          Text(report.faculty, style: AppTextStyles.regular(r.font(3.8))),
+          SizedBox(height: r.pad),
 
           // Isi laporan
           const SectionLabel(icon: Icons.notes_outlined, text: 'Isi Laporan'),

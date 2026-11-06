@@ -26,6 +26,7 @@ class ReportPage extends StatefulWidget {
 }
 
 class _ReportPageState extends State<ReportPage> {
+  final _facultyController = TextEditingController();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _picker = ImagePicker();
@@ -39,6 +40,7 @@ class _ReportPageState extends State<ReportPage> {
 
   @override
   void dispose() {
+    _facultyController.dispose();
     _titleController.dispose();
     _descriptionController.dispose();
     super.dispose();
@@ -120,6 +122,7 @@ class _ReportPageState extends State<ReportPage> {
 
   void _resetForm() {
     setState(() {
+      _facultyController.clear();
       _titleController.clear();
       _descriptionController.clear();
       _selectedCategory = 'Lainnya';
@@ -129,9 +132,14 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   void _submitReport() {
+    final faculty = _facultyController.text.trim();
     final title = _titleController.text.trim();
     final description = _descriptionController.text.trim();
 
+    if (title.isEmpty || faculty.isEmpty || description.isEmpty) {
+      _showMessage('Lokasi, fakultas/prodi, dan isi laporan wajib diisi!');
+      return;
+    }
     // Validasi formulir.
     if (title.isEmpty || description.isEmpty) {
       _showMessage('Judul dan isi laporan wajib diisi!');
@@ -140,6 +148,7 @@ class _ReportPageState extends State<ReportPage> {
 
     context.read<ReportProvider>().addReport(
       ReportData(
+        faculty: faculty,
         title: title,
         category: _selectedCategory,
         description: description,
@@ -204,6 +213,21 @@ class _ReportPageState extends State<ReportPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          //fakultas
+          _label(r, Icons.school_outlined, 'Fakultas / Program Studi'),
+          TextField(
+            controller: _facultyController,
+            style: AppTextStyles.regular(r.font(4)),
+            keyboardType: TextInputType.text,
+            textCapitalization: TextCapitalization.words,
+            decoration: appInputDecoration(
+              r,
+              hint: 'Contoh: Fakultas Teknik / Teknik Informatika',
+              icon: Icons.account_balance_outlined,
+            ),
+          ),
+          SizedBox(height: r.pad),
+
           // Lokasi
           _label(r, Icons.place_outlined, 'Lokasi Laporan'),
           TextField(
