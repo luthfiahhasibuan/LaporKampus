@@ -1,262 +1,147 @@
 import 'package:flutter/material.dart';
 
-// import '../models/report_data.dart';
+import '../models/report_data.dart';
 import '../utils/app_theme.dart';
-
-enum ReportStatus { terkirim, ditanggapi }
-
-class RecentReport {
-  final String title;
-  final String category;
-  final ReportStatus status;
-  final DateTime date;
-
-  const RecentReport({
-    required this.title,
-    required this.category,
-    required this.status,
-    required this.date,
-  });
-}
+import '../utils/date_format.dart';
+import '../utils/responsive.dart';
+import 'app_card.dart';
+import 'gradient_card_header.dart';
+import 'report_status_chip.dart';
 
 class RecentReportsCard extends StatelessWidget {
-  final List<RecentReport> reports;
+  const RecentReportsCard({
+    super.key,
+    required this.reports,
+    required this.onReportTap,
+  });
 
-  const RecentReportsCard({super.key, required this.reports});
+  final List<ReportData> reports;
+  final ValueChanged<ReportData> onReportTap;
 
-  static const _months = [
-    'Januari',
-    'Februari',
-    'Maret',
-    'April',
-    'Mei',
-    'Juni',
-    'Juli',
-    'Agustus',
-    'September',
-    'Oktober',
-    'November',
-    'Desember',
-  ];
-
-  String _formatDate(DateTime d) {
-    final hh = d.hour.toString().padLeft(2, '0');
-    final mm = d.minute.toString().padLeft(2, '0');
-    final day = d.day.toString().padLeft(2, '0');
-    return '$day ${_months[d.month - 1]} ${d.year}, $hh:$mm';
-  }
+  static const int _maxItems = 5;
 
   @override
   Widget build(BuildContext context) {
-    final items = reports.take(5).toList();
+    final r = context.r;
+    final items = reports.take(_maxItems).toList();
 
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFEDE3DA)),
-      ),
-      clipBehavior: Clip.antiAlias,
+    return AppCard(
       child: Column(
         children: [
-          // Header gradient
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-            decoration: const BoxDecoration(
-              gradient: AppColors.primaryGradient,
-            ),
-            child: const Row(
-              children: [
-                Icon(Icons.history, color: Colors.white, size: 24),
-                SizedBox(width: 10),
-                Text(
-                  'Laporan Terbaru',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
-            ),
+          const GradientCardHeader(
+            icon: Icons.history,
+            title: 'Laporan Terbaru',
+            subtitle: 'Ketuk laporan untuk melihat detail',
           ),
-
           if (items.isEmpty)
-            const Padding(
-              padding: EdgeInsets.all(24),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.inbox_outlined,
-                    size: 60,
-                    color: AppColors.textGrey,
-                  ),
-                  SizedBox(height: 12),
-                  Text(
-                    'Belum ada laporan',
-                    style: TextStyle(color: Colors.black54),
-                  ),
-                ],
-              ),
-            )
+            _buildEmpty(r)
           else ...[
-            // Judul kolom
-            const Padding(
-              padding: EdgeInsets.fromLTRB(16, 14, 16, 6),
-              child: _RowLayout(
-                judul: _HeaderText('Judul'),
-                kategori: _HeaderText('Kategori'),
-                status: _HeaderText('Status'),
-                tanggal: _HeaderText('Tanggal'),
-              ),
-            ),
-            // Baris data
-            for (int i = 0; i < items.length; i++) ...[
-              if (i > 0) const Divider(height: 1, color: Color(0xFFF1EAE3)),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 14,
+            _buildColumnTitles(r),
+            for (var i = 0; i < items.length; i++) ...[
+              if (i > 0)
+                Divider(
+                  height: r.stroke,
+                  color: AppColors.muted.withValues(alpha: 0.4),
                 ),
-                child: _RowLayout(
-                  judul: Text(
-                    items[i].title,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  kategori: _Chip(
-                    text: items[i].category,
-                    background: const Color(0xFFF3F4F6),
-                    foreground: Colors.black87,
-                  ),
-                  status: _StatusChip(status: items[i].status),
-                  tanggal: Text(
-                    _formatDate(items[i].date),
-                    style: const TextStyle(fontSize: 13, color: Colors.black45),
-                  ),
-                ),
-              ),
+              _buildRow(r, items[i]),
             ],
           ],
         ],
       ),
     );
   }
-}
 
-/// Satu pengaturan lebar kolom untuk header dan baris agar selalu sejajar.
-class _RowLayout extends StatelessWidget {
-  final Widget judul;
-  final Widget kategori;
-  final Widget status;
-  final Widget tanggal;
-
-  const _RowLayout({
-    required this.judul,
-    required this.kategori,
-    required this.status,
-    required this.tanggal,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    Widget left(Widget w) => Align(alignment: Alignment.centerLeft, child: w);
-
-    return Row(
-      children: [
-        Expanded(flex: 2, child: left(judul)),
-        Expanded(flex: 3, child: left(kategori)),
-        Expanded(flex: 4, child: left(status)),
-        Expanded(flex: 3, child: left(tanggal)),
-      ],
-    );
-  }
-}
-
-class _HeaderText extends StatelessWidget {
-  final String text;
-  const _HeaderText(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
-    );
-  }
-}
-
-class _Chip extends StatelessWidget {
-  final String text;
-  final Color background;
-  final Color foreground;
-  final IconData? icon;
-
-  const _Chip({
-    required this.text,
-    required this.background,
-    required this.foreground,
-    this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-      decoration: BoxDecoration(
-        color: background,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+  Widget _buildEmpty(Responsive r) {
+    return Padding(
+      padding: EdgeInsets.all(r.pad),
+      child: Column(
         children: [
-          if (icon != null) ...[
-            Icon(icon, size: 14, color: foreground),
-            const SizedBox(width: 4),
-          ],
-          Flexible(
-            child: Text(
-              text,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: foreground,
-              ),
+          Icon(Icons.inbox_outlined, size: r.icon * 2, color: AppColors.muted),
+          SizedBox(height: r.gap),
+          Text(
+            'Belum ada laporan',
+            style: AppTextStyles.regular(
+              r.font(3.8),
+              color: AppColors.textGrey,
             ),
           ),
         ],
       ),
     );
   }
+
+  Widget _buildColumnTitles(Responsive r) {
+    Text title(String text) =>
+        Text(text, style: AppTextStyles.bold(r.font(3.4)));
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(r.gap, r.gap, r.gap, r.gapS),
+      child: _RowLayout(
+        title: title('Lokasi'),
+        category: title('Kategori'),
+        status: title('Status'),
+        date: title('Tanggal'),
+      ),
+    );
+  }
+
+  Widget _buildRow(Responsive r, ReportData report) {
+    return InkWell(
+      onTap: () => onReportTap(report),
+      child: Padding(
+        padding: EdgeInsets.all(r.gap),
+        child: _RowLayout(
+          title: Text(
+            report.title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: AppTextStyles.bold(r.font(3.6)),
+          ),
+          category: Text(
+            report.category,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: AppTextStyles.medium(r.font(3.2), color: AppColors.textGrey),
+          ),
+          status: ReportStatusChip(status: report.status),
+          date: Text(
+            formatDate(report.createdAt),
+            style: AppTextStyles.regular(
+              r.font(3.2),
+              color: AppColors.textGrey,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-class _StatusChip extends StatelessWidget {
-  final ReportStatus status;
-  const _StatusChip({required this.status});
+class _RowLayout extends StatelessWidget {
+  const _RowLayout({
+    required this.title,
+    required this.category,
+    required this.status,
+    required this.date,
+  });
+
+  final Widget title;
+  final Widget category;
+  final Widget status;
+  final Widget date;
 
   @override
   Widget build(BuildContext context) {
-    switch (status) {
-      case ReportStatus.ditanggapi:
-        return const _Chip(
-          text: 'Ditanggapi',
-          icon: Icons.check_circle_outline,
-          background: Color(0xFFE8F8EE),
-          foreground: Color(0xFF16A34A),
-        );
-      case ReportStatus.terkirim:
-        return const _Chip(
-          text: 'Terkirim',
-          icon: Icons.send,
-          background: Color(0xFFE6F0FF),
-          foreground: Color(0xFF2563EB),
-        );
-    }
+    Widget left(Widget child) =>
+        Align(alignment: Alignment.centerLeft, child: child);
+
+    return Row(
+      children: [
+        Expanded(flex: 2, child: left(title)),
+        Expanded(flex: 3, child: left(category)),
+        Expanded(flex: 4, child: left(status)),
+        Expanded(flex: 3, child: left(date)),
+      ],
+    );
   }
 }

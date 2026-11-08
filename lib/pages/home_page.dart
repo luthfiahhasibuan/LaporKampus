@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../widgets/app_header.dart';
 import '../widgets/menu_card.dart';
-import '../widgets/statistics_section.dart';
 import '../widgets/welcome_card.dart';
 import '../utils/app_theme.dart';
 import '../widgets/recent_reports_card.dart';
 import '../providers/report_provider.dart';
 import '../utils/responsive.dart';
 import '../data/dummy_data.dart';
+import 'report_detail_page.dart';
 
 import 'package:provider/provider.dart';
 
@@ -32,10 +32,9 @@ class HomePage extends StatelessWidget {
   List<Widget> _buildContent(Responsive r) {
     return [
       Consumer<ReportProvider>(
-        builder: (context, provider, _) => StatisticsSection(
-          total: provider.total,
-          sent: provider.sent,
-          responded: provider.responded,
+        builder: (context, provider, _) => RecentReportsCard(
+          reports: provider.reports,
+          onReportTap: (report) => ReportDetailPage.open(context, report),
         ),
       ),
 
@@ -56,7 +55,12 @@ class HomePage extends StatelessWidget {
         onTap: onOpenMyReports,
       ),
       SizedBox(height: r.gap),
-      const RecentReportsCard(reports: []),
+      Consumer<ReportProvider>(
+        builder: (context, provider, _) => RecentReportsCard(
+          reports: provider.reports,
+          onReportTap: (report) => ReportDetailPage.open(context, report),
+        ),
+      ),
     ];
   }
 
