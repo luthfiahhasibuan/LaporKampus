@@ -7,6 +7,7 @@ import '../utils/app_theme.dart';
 import '../utils/responsive.dart';
 import '../widgets/app_scaffold.dart';
 import '../widgets/profile_info_tile.dart';
+import '../repositories/auth_repository.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -224,6 +225,9 @@ class ProfilePage extends StatelessWidget {
     );
 
     if (confirmed != true || !context.mounted) return;
+
+    await AuthRepository().signOut();
+    if (!context.mounted) return;
 
     currentUser = null;
     Navigator.pushNamedAndRemoveUntil(

@@ -6,6 +6,10 @@ import '../data/dummy_data.dart';
 import '../models/app_routes.dart';
 import '../widgets/auth_text_field.dart';
 import '../utils/responsive.dart';
+import '../repositories/auth_repository.dart';
+
+final _auth = AuthRepository();
+bool _loading = false;
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -26,35 +30,28 @@ class _SignInPageState extends State<SignInPage> {
     super.dispose();
   }
 
-  void _submit() {
-    // Jalankan semua validator; berhenti jika ada yang error
+  Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
-    final username = _usernameC.text.trim().toLowerCase();
-    final pass = _passC.text;
-
-    // Cocokkan username DAN password ke dummy data
-    final index = dummyUsers.indexWhere(
-      (u) => u.username.toLowerCase() == username && u.password == pass,
-    );
-
-    if (index == -1) {
-      // apakah username-nya terdaftar atau tidak
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Username atau password salah'),
-          backgroundColor: Colors.red,
-        ),
+    setState(() => _loading = true);
+    try {
+      final user = await _auth.signIn(
+        username: _usernameC.text,
+        password: _passC.text,
       );
-      return;
+      currentUser = user;
+      if (!mounted) return;
+
+      final destination = user.isAdmin ? AppRoutes.adminMain : AppRoutes.main;
+      Navigator.pushNamedAndRemoveUntil(context, destination, (route) => false);
+    } on AuthException catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message), backgroundColor: AppColors.error),
+      );
+    } finally {
+      if (mounted) setState(() => _loading = false);
     }
-
-    currentUser = dummyUsers[index];
-
-    final destination = currentUser!.isAdmin
-        ? AppRoutes.adminMain
-        : AppRoutes.main;
-    Navigator.pushNamedAndRemoveUntil(context, destination, (route) => false);
   }
 
   @override
@@ -153,7 +150,7 @@ class _SignInPageState extends State<SignInPage> {
                     width: double.infinity,
                     height: 52,
                     child: ElevatedButton(
-                      onPressed: _submit,
+                      onPressed: _loading ? null : _submit,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.white,
                         shape: RoundedRectangleBorder(
@@ -161,13 +158,22 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                       ),
 
-                      child: Text(
-                        'Masuk',
-                        style: AppTextStyles.bold(
-                          r.font(4.4),
-                          color: AppColors.primary,
-                        ),
-                      ),
+                      child: _loading
+                          ? SizedBox(
+                              width: r.icon,
+                              height: r.icon,
+                              child: CircularProgressIndicator(
+                                strokeWidth: r.strokeThick,
+                                color: AppColors.primary,
+                              ),
+                            )
+                          : Text(
+                              'Masuk',
+                              style: AppTextStyles.bold(
+                                r.font(4.4),
+                                color: AppColors.primary,
+                              ),
+                            ),
                     ),
                   ),
 
