@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 
 import '../utils/app_theme.dart';
 
-/// Menampilkan foto lampiran laporan dari [path].
-/// Di web path berupa URL blob, di mobile berupa path file.
 class ReportImage extends StatelessWidget {
   const ReportImage({super.key, required this.path, required this.height});
 

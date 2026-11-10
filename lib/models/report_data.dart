@@ -8,20 +8,22 @@ class ReportStatus {
 }
 
 class ReportData {
+  final String id;
   final String faculty;
   final String title;
   final String category;
   final String description;
   final String? imagePath;
   final UserModel reporter;
+  final bool hasImage;
   final DateTime createdAt;
 
   String status;
-
   String? response;
   DateTime? respondedAt;
 
   ReportData({
+    this.id = '',
     required this.faculty,
     required this.title,
     required this.category,
